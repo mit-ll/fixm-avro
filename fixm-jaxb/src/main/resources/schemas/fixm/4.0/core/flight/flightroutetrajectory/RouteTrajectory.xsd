@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 Airservices Australia, DSNA, EUROCONTROL, IATA, JCAB, NATS Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the disclaimer
+    in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, IATA, JCAB, NATS Limited, NavCanada, SESAR Joint Undertaking
+    &amp; US FAA nor the names of their contributors may be used to endorse or promote products derived from this specification
+    without specific prior written permission.
+          
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Constraints.xsd"/>
+   <include schemaLocation="./RouteChanges.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         Trajectory package contains the 4D Trajectory information. 
+      </documentation>
+   </annotation>
+
+   <complexType name="ElapsedTimeLocationType">
+      <annotation>
+         <documentation>
+            The location associated with estimated elapsed time. It can be a longitude, significant 
+            point or flight information region. 
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="longitude" type="fb:LongitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Longitude associated with the elapsed time. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="point" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Point associated with the estimated elapsed time. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="region" type="fb:AirspaceDesignatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Flight information boundary associated with the elapsed time. 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="ElapsedTimeLocation" type="fx:ElapsedTimeLocationType" /> 
+
+   <complexType name="EnRouteDelayType">
+      <annotation>
+         <documentation>
+            En Route delay or holding planned to occur at a significant point or along a route 
+            element. 
+         </documentation>
+      </annotation>
+      <attribute name="delayReference" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates a named hold pattern, airspace or aerodrome at which the en route delay 
+               is expected to occur. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="delayType" type="fx:EnRouteDelayTypeType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates if the en route delay is planned airborne holding, or Airspace User (AU)-requested 
+               operations at a specified location. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="delayValue" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               The length of time the flight is expected to be delayed at a specific point en route. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="EnRouteDelay" type="fx:EnRouteDelayType" /> 
+
+   <simpleType name="EnRouteDelayTypeType">
+      <annotation>
+         <documentation>
+            Indicates if the en route delay is planned airborne holding, or Airspace User (AU)-requested 
+            operations at a specified location. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AU_REQUEST_POINT">
+            <annotation>
+               <documentation>
+                  The delay is an AU request to “spend time�? at the point, thus the delay has to 
+                  be added to the flight duration to the next point to compute the estimate to the 
+                  next point 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="AU_REQUEST_SEGMENT">
+            <annotation>
+               <documentation>
+                  The delay is an AU request to “spend time�? at the segment starting at point, 
+                  thus the delay has to be understood as the total duration between the point and the 
+                  next one. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="AU_REQUEST_AIRSPACE">
+            <annotation>
+               <documentation>
+                  The delay is an AU request to spend time in an airspace after the RoutePoint the 
+                  name of which is in delayReference, the delayValue is the time in that airspace, 
+                  the entry and exit time into that airspace is in theBEGIN_STAY and END_STAY info 
+                  of the trajectory 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="AU_REQUEST_AERODROME">
+            <annotation>
+               <documentation>
+                  The delay is an AU request to spend time at an aerodrome after the RoutePoint, the 
+                  name of the aerodrome is in the delayReference field, the points at which the AU 
+                  leaves its route and rejoin it go to the aerodrome are in the BEGIN_STAY and END_STAY 
+                  info of the trajectory 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="AU_REQUEST_HOLDING">
+            <annotation>
+               <documentation>
+                  The delay is an AU request to spend time at a holding pattern the anchor point of 
+                  which is the RoutePoint.  The holding pattern name if any is in delayReference.  
+                  delayValue used to compute estimates as in AU_REQUEST_POINT 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="ATFM">
+            <annotation>
+               <documentation>
+                  the delay is an ASP request to do Enroute Holding names in delayReference.  delayValue 
+                  used to compute estimates as in AU_REQUEST_POINT 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="EstimatedElapsedTimeType">
+      <annotation>
+         <documentation>
+            The estimated amount of time from takeoff to reach a significant point or Flight 
+            Information Region (FIR) boundary along the route of flight. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="location" type="fx:ElapsedTimeLocationType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The location associated with estimated elapsed time. It can be a longitude, significant 
+                  point of flight information region. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="elapsedTime" type="fb:DurationType" use="required" > 
+         <annotation>
+            <documentation>
+               The estimated amount of elapsed time. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="EstimatedElapsedTime" type="fx:EstimatedElapsedTimeType" /> 
+
+   <complexType name="FlightRouteElementType">
+      <annotation>
+         <documentation>
+            A container for information pertinent to a single point in a trajectory. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="alongRouteDistance" type="fb:DistanceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The distance along the route, computed from the first converted fix in the ASP s 
+                  airspace for each route point in the route. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="constraint" type="fx:AbstractConstraintType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  A number of constraints can be associated with each Expanded Route Point and Trajectory 
+                  point. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="enRouteDelay" type="fx:EnRouteDelayType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  En Route delay or holding planned to occur at a significant point or along a route 
+                  element. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="point4D" type="fx:TrajectoryPoint4DType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Identifies the location, altitude and time of a trajectory point. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="routeChange" type="fx:AbstractRouteChangeType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  A Route Point, Expanded Route Point and Trajectory Point may contain an ordered list 
+                  of route changes. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="routeDesignatorToNextElement" type="fx:RouteDesignatorToNextElementType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The route (airway) to the next element on the route. Can be either an en route airway, 
+                  standard instrument departure route, or standard instrument arrival route. [FIXM] 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="routePoint" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Describes the significant points (i.e., point at which a change in ATS Route occurs) 
+                  contained in the route and points at which certain events occur (e.g., change of 
+                  speed or level, change of flight rules, start of cruise climb). 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="flightRulesChange" type="fx:FlightRulesType" use="optional" > 
+         <annotation>
+            <documentation>
+               Describes the planned change of flight rules (e.g., IFR/VFR) associated with a route 
+               point. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="modified" type="fx:ModifiedRouteItemIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Identifies if the route point or element was modified from the reference version, 
+               identified in the message, during negotiation by an ASP. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="modifiedRouteItemReference" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               A reference to an ATFM program name that modified the route. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="routeTerminationIndicator" type="fx:RouteTruncationIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates the route description is truncated at the preceding point. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="FlightRouteElement" type="fx:FlightRouteElementType" /> 
+
+   <complexType name="FlightRouteInformationType">
+      <annotation>
+         <documentation>
+            Contains basic information about the Flight Route that pertains to the whole flight. 
+            
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="airfileRouteStartTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The actual or estimated time of departure from the first point on the route for a 
+                  flight filed in the air. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="cruisingLevel" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The filed altitude (flight level) for the first or the whole cruising portion of 
+                  the flight. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="cruisingSpeed" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The true airspeed for the first or the whole cruising portion of the flight.  This 
+                  can be for a filed flight or an active flight.  This element is strategic in nature. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="estimatedElapsedTime" type="fx:EstimatedElapsedTimeType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  The estimated amount of time from takeoff to reach a significant point or Flight 
+                  Information Region (FIR) boundary along the route of flight. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="flightRulesCategory" type="fx:FlightRulesCategoryType" use="optional" > 
+         <annotation>
+            <documentation>
+               The category of flight rules with which the pilot intends to comply. [ICAO Doc 4444, 
+               Appendix 2, Item 8] 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="routeText" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               The ICAO route string as depicted from the flight plan. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="totalEstimatedElapsedTime" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               For IFR flights, the estimated time required from take-off to arrive over that designated 
+               point, defined by reference to navigation aids, from which it is intended that an 
+               instrument approach procedure will be commenced, or, if no navigation aid is associated 
+               with the destination aerodrome, to arrive over the destination aerodrome. For VFR 
+               flights, the estimated time required from take-off to arrive over the destination 
+               aerodrome. [ICAO Doc 4444] 
+               For a flight plan received from an aircraft in flight, the total estimated elapsed 
+               time is the estimated time from the first point of the route to which the flight 
+               plan applies to the termination point of the flight plan. [ICAO Doc 4444, Appendix 
+               2, ITEM 16] 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="FlightRouteInformation" type="fx:FlightRouteInformationType" /> 
+
+   <simpleType name="FlightRulesType">
+      <annotation>
+         <documentation>
+            The regulation, or combination of regulations, that governs all aspects of operations 
+            under which the pilot plans to fly. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="IFR">
+            <annotation>
+               <documentation>
+                  Instrument Flight Rules 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="VFR">
+            <annotation>
+               <documentation>
+                  Visual Flight Rules 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="FlightRulesCategoryType">
+      <annotation>
+         <documentation>
+            The category of flight rules with which the pilot intends to comply. [ICAO Doc 4444, 
+            Appendix 2, Item 8] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="I"/>
+         <enumeration value="V"/>
+         <enumeration value="Y"/>
+         <enumeration value="Z"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="MeteorologicalDataType">
+      <annotation>
+         <documentation>
+            In a predicted trajectory, the instantaneous temperature and wind vector used at 
+            the 4D Point for creating the 4D trajectory. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="temperature" type="fb:TemperatureType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  In a predicted trajectory, the instantaneous temperature used at the 4D Point for 
+                  creating the 4D trajectory. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="windDirection" type="fb:WindDirectionType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  In a predicted trajectory, the instantaneous wind direction used at the 4D Point 
+                  for creating the 4D trajectory. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="windSpeed" type="fb:WindSpeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  In a predicted trajectory, the instantaneous wind speed used at the 4D Point for 
+                  creating the 4D trajectory. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="MeteorologicalData" type="fx:MeteorologicalDataType" /> 
+
+   <simpleType name="ModifiedRouteItemIndicatorType">
+      <annotation>
+         <documentation>
+            Indication that the route item was modified 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="MODIFIED_ROUTE_ITEM"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="PerformanceProfileType">
+      <annotation>
+         <documentation>
+            A zero-wind, standard atmosphere, unconstrained descent profile reflective of the 
+            flight capabilities and desired parameters. 
+            A zero-wind, standard atmosphere, unconstrained climb profile reflective of the flight 
+            capabilities and desired parameters. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="profilePoint" type="fx:ProfilePointType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  .Profile Point: A point in a performance climb or descent profile. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="PerformanceProfile" type="fx:PerformanceProfileType" /> 
+
+   <complexType name="Point4DTimeChoiceType">
+      <annotation>
+         <documentation>
+            Allows to either specify a 4D point time as either an absolute time or relative time. 
+            
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="absoluteTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Absolute Time of the 4D point. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="relativeTimeFromInitialPredictionPoint" type="fb:DurationType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Relative Time of the 4D point (expressed as duration from takeoff). 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="Point4DTimeChoice" type="fx:Point4DTimeChoiceType" /> 
+
+   <complexType name="ProfilePointType">
+      <annotation>
+         <documentation>
+            A point in a performance climb or descent profile. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="airspeed" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The true airspeed of a point in a zero-wind, standard atmosphere, unconstrained profile. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="distance" type="fb:DistanceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The distance (from the start of the profile) at a point in a zero-wind, unconstrained 
+                  profile. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="level" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The altitude of a point in a zero-wind, unconstrained profile. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="time" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               The time (from the start of the profile) at a point in a zero-wind, unconstrained 
+               profile. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="ProfilePoint" type="fx:ProfilePointType" /> 
+
+   <complexType name="RouteDesignatorToNextElementType">
+      <annotation>
+         <documentation>
+            The route (airway) to the next element on the route. Can be either an en route airway, 
+            standard instrument departure route, or standard instrument arrival route. [FIXM] 
+            
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="routeDesignator" type="fb:RouteDesignatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Provides a reference to the route point or element on the route and/or expanded route. 
+                  
+                  Flight route element  contained within the route. Each segment may contain a route 
+                  point or an airway. 
+                  The route element describes an ATS route (Field 15(c2)), a Standard Departure Route 
+                  (Field 15(c1)), or a Standard Arrival Route (Field 15(c3)). These fields may be used 
+                  consistent with the definition in ICAO Doc 4444. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="standardInstrumentArrival" type="fb:SidStarDesignatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The textual designator of the Standard Instrument Arrival (STAR). 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="standardInstrumentDeparture" type="fb:SidStarDesignatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  This is the name of a published procedure extending from the departure runway to 
+                  the start of the en route part of the aircraft's route. 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="RouteDesignatorToNextElement" type="fx:RouteDesignatorToNextElementType" /> 
+
+   <complexType name="RouteTrajectoryType">
+      <annotation>
+         <documentation>
+            Groups and associates a Route and Trajectory. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="climbProfile" type="fx:PerformanceProfileType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  A zero-wind, standard atmosphere, unconstrained climb profile reflective of the flight 
+                  capabilities and desired parameters. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="climbSchedule" type="fx:SpeedScheduleType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Initially submitted by the airspace user, this defines the target speed in both Indicated 
+                  Airspeed (IAS) and MACH so the aircraft can climb through the crossover altitude 
+                  and target the MACH speed when needed. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="descentProfile" type="fx:PerformanceProfileType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  A zero-wind, standard atmosphere, unconstrained descent profile reflective of the 
+                  flight capabilities and desired parameters. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="descentSchedule" type="fx:SpeedScheduleType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Initially submitted by the airspace user, this defines the target speed in both (Indicated 
+                  Airspeed) IAS and MACH so the aircraft can descend through the crossover altitude 
+                  and target the IAS speed when needed. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="element" type="fx:FlightRouteElementType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  A container for information pertinent to a single point in a trajectory. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="routeInformation" type="fx:FlightRouteInformationType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Contains information about the Flight Route. The route is comprised of Route Segments, 
+                  which are comprised of Route Point/Airway pairs. Route also contains an expanded 
+                  route. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="takeoffWeight" type="fb:WeightType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The estimated takeoff weight of the aircraft. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="RouteTrajectory" type="fx:RouteTrajectoryType" /> 
+
+   <simpleType name="RouteTruncationIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates the route description is truncated at the preceding point 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ROUTE_TRUNCATION"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="SpeedScheduleType">
+      <annotation>
+         <documentation>
+            Defines the speed schedule for climb and descent of the aircraft through the crossover 
+            altitude. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="initialSpeed" type="fb:IndicatedAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Initial speed of the aircraft during the climb 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="subsequentSpeed" type="fb:IndicatedAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Subsequent speed of the aircraft during the climb 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="SpeedSchedule" type="fx:SpeedScheduleType" /> 
+
+   <complexType name="TrajectoryPoint4DType">
+      <annotation>
+         <documentation>
+            Identifies relevant information about a trajectory point including location, altitude, 
+            time, etc. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:GeographicalPositionType">
+            <sequence>
+               <element name="altimeterSetting" type="fb:PressureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The barometric pressure reading used to adjust a pressure altimeter for variations 
+                        in existing atmospheric pressure or to the standard altimeter setting (29.92). 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="level" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Altitude of the 4D point. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="metData" type="fx:MeteorologicalDataType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        In a predicted trajectory, the instantaneous temperature and wind vector used at 
+                        the 4D Point for creating the 4D trajectory. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="pointProperty" type="fx:TrajectoryPointPropertyType" minOccurs="0" maxOccurs="unbounded" > 
+                  <annotation>
+                     <documentation>
+                        Describes any applicable properties of the trajectory point.  May include multiple 
+                        properties per point. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="predictedAirspeed" type="fb:IndicatedAirspeedType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The airspeed (or range of speeds) of the flight at the 4D Point expressed as either 
+                        Indicated Airspeed or Mach. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="predictedGroundspeed" type="fb:GroundSpeedType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Aircraft predicted ground speed (or range of speeds) at this point. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="time" type="fx:Point4DTimeChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        4D Point time expressed as either absolute or relative time. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="verticalRange" type="fb:VerticalRangeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Vertical Range representing block altitude clearances 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TrajectoryPoint4D" type="fx:TrajectoryPoint4DType" substitutionGroup="fb:GeographicalPosition" /> 
+
+   <complexType name="TrajectoryPointPropertyType">
+      <annotation>
+         <documentation>
+            Describes any applicable properties of the trajectory point.  May include multiple 
+            properties per point. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="reference" type="fx:TrajectoryPointReferenceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  A reference providing an identifier of airspace or program affecting the point. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="propertyType" type="fx:TrajectoryPointPropertyTypeType" use="optional" > 
+         <annotation>
+            <documentation>
+               Describes any applicable properties of the trajectory point.  May include multiple 
+               properties per point. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="TrajectoryPointProperty" type="fx:TrajectoryPointPropertyType" /> 
+
+   <simpleType name="TrajectoryPointPropertyTypeType">
+      <annotation>
+         <documentation>
+            Describes any applicable properties of the trajectory point. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="TOP_OF_CLIMB"/>
+         <enumeration value="TOP_OF_DESCENT"/>
+         <enumeration value="CROSSOVER_ALTITUDE"/>
+         <enumeration value="TRANSITION_ALTITUDE_OR_LEVEL"/>
+         <enumeration value="TCP_ALTITUDE"/>
+         <enumeration value="TCP_SPEED"/>
+         <enumeration value="TCP_LATERAL"/>
+         <enumeration value="RUNWAY_END"/>
+         <enumeration value="START_TAKEOFF_ROLL"/>
+         <enumeration value="END_LANDING_ROLL"/>
+         <enumeration value="WHEELS_OFF"/>
+         <enumeration value="WHEELS_ON"/>
+         <enumeration value="ENTRY_SPECIAL_ACTIVITY_AIRSPACE"/>
+         <enumeration value="EXIT_SPECIAL_ACTIVITY_AIRSPACE"/>
+         <enumeration value="CROSSING_CONSTRAINED_AIRSPACE"/>
+         <enumeration value="EXIT_CONSTRAINED_AIRSPACE"/>
+         <enumeration value="INITIAL_PREDICTION_POINT"/>
+         <enumeration value="END_PREDICTION_POINT"/>
+         <enumeration value="HOLD_ENTRY"/>
+         <enumeration value="HOLD_EXIT"/>
+         <enumeration value="BEGIN_STAY"/>
+         <enumeration value="END_STAY"/>
+         <enumeration value="START_EXPECT_VECTORS"/>
+         <enumeration value="END_EXPECT_VECTORS"/>
+         <enumeration value="CONSTRAINT_POINT"/>
+         <enumeration value="FIR_BOUNDARY_CROSSING_POINT"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="TrajectoryPointReferenceType">
+      <annotation>
+         <documentation>
+            A reference providing an identifier of airspace or program affecting the point. 
+         </documentation>
+      </annotation>
+      <attribute name="identifier" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               The name of the particular airspace or program (e.g., FCA016, CTP001, RRDCC123) 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="type" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               The nature of the airspace or program (e.g., special activity airspace, GDP, MIT, 
+               etc.) 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="TrajectoryPointReference" type="fx:TrajectoryPointReferenceType" /> 
+</schema>

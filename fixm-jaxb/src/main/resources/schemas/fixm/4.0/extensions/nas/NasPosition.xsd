@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasAltitude.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The NAsPosition package contains information about the flight's current and planned 
+         reporting positions. 
+      </documentation>
+   </annotation>
+
+   <complexType name="NasAircraftPositionType">
+      <annotation>
+         <documentation>
+            Container for NAS target and track aircraft positions. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="actualSpeed" type="fb:GroundSpeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The actual speed of the aircraft, collected via various methods. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="followingPosition" type="nas:PlannedReportingPositionType" minOccurs="0" maxOccurs="1" nillable="true">
+            <annotation>
+               <documentation>
+                  Estimated second future position of the aircraft transmitted in a non-radar airspace 
+                  position report. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="nextPosition" type="nas:PlannedReportingPositionType" minOccurs="0" maxOccurs="1" nillable="true">
+            <annotation>
+               <documentation>
+                  For Oceanic flights, the next reporting position is required. 
+                  Estimated next future position of the aircraft transmitted in a non-radar airspace 
+                  position report. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="position" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The actual location of an active flight as reported by surveillance, for a flight 
+                  tracked by radar, or from the position part of a pilot progress report, for an oceanic 
+                  flight or flight operating in non-radar airspace. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="positionTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time associated with the Current Position of an active flight, from the radar 
+                  surveillance report or progress report. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="reportedLevel" type="nas:ReportedAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Provides the NAS reported altitude with optional suffixes (B, C, T). 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="targetAltitude" type="nas:TargetAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The Mode C target altitude, corrected for barometric pressure.  Can be marked as 
+                  invalid. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="targetPosition" type="fb:GeographicalPositionType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Aircraft target position, as reported by one raw radar return. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="targetPositionTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time associated with the raw radar return. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="track" type="fb:BearingType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The direction the aircraft is flying, over the ground, relative to true north.  It 
+                  is the heading of the aircraft as impacted by the wind. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="trackVelocity" type="nas:NasVelocityType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Describes flight's velocity in X and Y axes 
+         
+                  Track Speed Components: Speed of the radar surveillance track along the X and Y components. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="coastIndicator" type="nas:NasCoastIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               An indicator the aircraft was unexpectedly not detected by radar (after a period 
+               of tracking). 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasAircraftPosition" type="nas:NasAircraftPositionType" /> 
+
+   <complexType name="NasVelocityType">
+      <annotation>
+         <documentation>
+            Describes flight's velocity in X and Y axes 
+         
+            Track Speed Components: Speed of the radar surveillance track along the X and Y components. 
+            
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="x" type="fb:IndicatedAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  speed along the X-axis 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="y" type="fb:IndicatedAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  speed along the Y-axis 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="NasVelocity" type="nas:NasVelocityType" /> 
+
+   <complexType name="PlannedReportingPositionType">
+      <annotation>
+         <documentation>
+            Estimated future position, altitude and time of the aircraft transmitted in a non-radar 
+            airspace position report. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="position" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Planned reporting position point. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="positionAltitude" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Altitude associated with the planned reporting position. 
+                  .Following Future Reporting Position Altitude: Expected altitude at the estimated 
+                  second future position of the aircraft transmitted in a non-radar airspace position 
+                  report. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="positionEstimatedTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Estimated time associated with the planned reporting position. 
+                  .Following Future Reporting Position Time - Estimated: Estimated time at the second 
+                  future position of the aircraft transmitted in a non-radar airspace position report. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="PlannedReportingPosition" type="nas:PlannedReportingPositionType" /> 
+
+   <simpleType name="NasCoastIndicatorType">
+      <annotation>
+         <documentation>
+            An indicator the aircraft was unexpectedly not detected by radar (after a period 
+            of tracking). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="COASTING"/>
+      </restriction>
+   </simpleType>
+</schema>

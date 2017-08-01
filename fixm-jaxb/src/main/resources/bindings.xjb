@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  version="2.1">
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/base/Measures.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='VerticalReferenceType']/xs:restriction/xs:enumeration[@value='W84']">
+      <jxb:typesafeEnumMember name="W84"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='E1']">
+      <jxb:typesafeEnumMember name="E1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='E2']">
+      <jxb:typesafeEnumMember name="E2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='E3']">
+      <jxb:typesafeEnumMember name="E3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='M1']">
+      <jxb:typesafeEnumMember name="M1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='M2']">
+      <jxb:typesafeEnumMember name="M2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='M3']">
+      <jxb:typesafeEnumMember name="M3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P1']">
+      <jxb:typesafeEnumMember name="P1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P2']">
+      <jxb:typesafeEnumMember name="P2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P3']">
+      <jxb:typesafeEnumMember name="P3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P4']">
+      <jxb:typesafeEnumMember name="P4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P5']">
+      <jxb:typesafeEnumMember name="P5"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P6']">
+      <jxb:typesafeEnumMember name="P6"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P7']">
+      <jxb:typesafeEnumMember name="P7"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P8']">
+      <jxb:typesafeEnumMember name="P8"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='CommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='P9']">
+      <jxb:typesafeEnumMember name="P9"/>
+    </jxb:bindings>
+  </jxb:bindings>
+
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J1']">
+      <jxb:typesafeEnumMember name="J1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J2']">
+      <jxb:typesafeEnumMember name="J2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J3']">
+      <jxb:typesafeEnumMember name="J3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J4']">
+      <jxb:typesafeEnumMember name="J4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J5']">
+      <jxb:typesafeEnumMember name="J5"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J6']">
+      <jxb:typesafeEnumMember name="J6"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='DatalinkCommunicationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='J7']">
+      <jxb:typesafeEnumMember name="J7"/>
+    </jxb:bindings>
+  </jxb:bindings>
+
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='A1']">
+      <jxb:typesafeEnumMember name="A1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B1']">
+      <jxb:typesafeEnumMember name="B1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B2']">
+      <jxb:typesafeEnumMember name="B2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B3']">
+      <jxb:typesafeEnumMember name="B3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B4']">
+      <jxb:typesafeEnumMember name="B4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B5']">
+      <jxb:typesafeEnumMember name="B5"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B6']">
+      <jxb:typesafeEnumMember name="B6"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='C1']">
+      <jxb:typesafeEnumMember name="C1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='C2']">
+      <jxb:typesafeEnumMember name="C2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='C3']">
+      <jxb:typesafeEnumMember name="C3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='C4']">
+      <jxb:typesafeEnumMember name="C4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='D1']">
+      <jxb:typesafeEnumMember name="D1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='D2']">
+      <jxb:typesafeEnumMember name="D2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='D3']">
+      <jxb:typesafeEnumMember name="D3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='D4']">
+      <jxb:typesafeEnumMember name="D4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='L1']">
+      <jxb:typesafeEnumMember name="L1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='O1']">
+      <jxb:typesafeEnumMember name="O1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='O2']">
+      <jxb:typesafeEnumMember name="O2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='O3']">
+      <jxb:typesafeEnumMember name="O3"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='O4']">
+      <jxb:typesafeEnumMember name="O4"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='S1']">
+      <jxb:typesafeEnumMember name="S1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='S2']">
+      <jxb:typesafeEnumMember name="S2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='T1']">
+      <jxb:typesafeEnumMember name="T1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='PerformanceBasedNavigationCapabilityCodeType']/xs:restriction/xs:enumeration[@value='T2']">
+      <jxb:typesafeEnumMember name="T2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B1']">
+      <jxb:typesafeEnumMember name="B1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='B2']">
+      <jxb:typesafeEnumMember name="B2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='D1']">
+      <jxb:typesafeEnumMember name="D1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='G1']">
+      <jxb:typesafeEnumMember name="G1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='U1']">
+      <jxb:typesafeEnumMember name="U1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='U2']">
+      <jxb:typesafeEnumMember name="U2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='V1']">
+      <jxb:typesafeEnumMember name="V1"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/core/flight/capability/Capability.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='SurveillanceCapabilityCodeType']/xs:restriction/xs:enumeration[@value='V2']">
+      <jxb:typesafeEnumMember name="V2"/>
+    </jxb:bindings>
+  </jxb:bindings>
+
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/extensions/nas/NasAircraft.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='NasSpecialAircraftQualifierType']/xs:restriction/xs:enumeration[@value='B757']">
+      <jxb:typesafeEnumMember name="B757"/>
+    </jxb:bindings>
+  </jxb:bindings>
+  <jxb:bindings schemaLocation="schemas/fixm/4.0/extensions/nas/NasAircraft.xsd">
+    <jxb:bindings node="//xs:simpleType[@name='NasSpecialAircraftQualifierType']/xs:restriction/xs:enumeration[@value='B757_TCAS']">
+      <jxb:typesafeEnumMember name="B757_TCAS"/>
+    </jxb:bindings>
+  </jxb:bindings>
+</jxb:bindings>

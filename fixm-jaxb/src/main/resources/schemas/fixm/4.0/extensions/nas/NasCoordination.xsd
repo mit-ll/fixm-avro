@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         Package contains the NAS specific extensions to the FIXM Core coordination classes. 
+         
+      </documentation>
+   </annotation>
+
+   <complexType name="NasBoundaryCrossingType">
+      <annotation>
+         <documentation>
+            An extension of the Boundary Crossing to accommodate Nas specific use cases. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:BoundaryCrossingType">
+            <sequence>
+               <element name="handoff" type="nas:NasHandoffType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        An action taken to transfer the radar identification of an aircraft from one controller 
+                        to another controller if the aircraft will enter the receiving controller's airspace 
+                        and radio communications with the aircraft will be transferred. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasBoundaryCrossing" type="nas:NasBoundaryCrossingType" substitutionGroup="fx:BoundaryCrossing" /> 
+
+   <complexType name="NasHandoffType">
+      <annotation>
+         <documentation>
+            Contains information about flight handoff between sectors. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="acceptingUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The Air Traffic Control (ATC) unit accepting control of the aircraft as a result 
+                  of a handoff. 
+                  The Air Traffic Control (ATC) sector accepting control of the aircraft as a result 
+                  of a handoff. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="receivingUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Identifies the ATC sector receiving control of the aircraft as a result of a handoff. 
+                  
+                  The Air Traffic Control unit receiving control of the aircraft as a result of a handoff. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="transferringUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The Air Traffic Control unit transferring control of the aircraft as a result of 
+                  a handoff. 
+                  Identifies the ATC sector transferring control of the aircraft as a result of a handoff. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="event" type="nas:NasHandoffEventType" use="optional" > 
+         <annotation>
+            <documentation>
+               Characterizes a handoff in terms of its status. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasHandoff" type="nas:NasHandoffType" /> 
+
+   <simpleType name="NasHandoffEventType">
+      <annotation>
+         <documentation>
+            Characterizes a handoff in terms of its status. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="INITIATION"/>
+         <enumeration value="ACCEPTANCE"/>
+         <enumeration value="RETRACTION"/>
+         <enumeration value="TAKE_CONTROL"/>
+         <enumeration value="UPDATE"/>
+         <enumeration value="FAILURE"/>
+      </restriction>
+   </simpleType>
+</schema>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ns4:MessageCollection xmlns="http://www.fixm.aero/base/4.0" xmlns:ns2="http://www.fixm.aero/flight/4.0" xmlns:ns3="http://www.faa.aero/nas/4.0" xmlns:ns4="http://www.fixm.aero/messaging/4.0">
+  <ns4:message xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:NasMessageType">
+    <ns3:flight currentRVSMCompliance="COMPLIANT" equippedIndicator="EQUIPPED" futureRVSMCompliance="COMPLIANT">
+      <ns2:agreed>
+        <ns2:routeInformation xsi:type="ns3:NasRouteInformationType">
+          <ns3:tfmsNextEvent srsName="urn:ogc:def:crs:EPSG::4326">
+            <pos>34.56789 -98.76543</pos>
+          </ns3:tfmsNextEvent>
+        </ns2:routeInformation>
+      </ns2:agreed>
+      <ns2:departure departurePointText="KLAX" xsi:type="ns3:NasDepartureType">
+        <ns3:offBlockTime>
+          <ns3:initialOffBlockTime timeReference="UTC">2000-01-01T00:00:00Z</ns3:initialOffBlockTime>
+        </ns3:offBlockTime>
+      </ns2:departure>
+      <ns2:destination xsi:type="ns3:NasDestinationType">
+        <ns2:aerodrome name="KBOS" xsi:type="OtherReferenceType"/>
+        <ns3:runwayArrivalTime>
+          <ns3:estimated estimatedType="ESTIMATED" source="TFMS" timeReference="UTC">2000-01-01T05:00:00Z</ns3:estimated>
+        </ns3:runwayArrivalTime>
+      </ns2:destination>
+      <ns2:enRoute xsi:type="ns3:NasEnRouteType">
+        <ns3:aircraftPosition>
+          <ns3:actualSpeed uom="KM_H">650.0</ns3:actualSpeed>
+          <ns3:position xsi:type="PositionPointType">
+            <position srsName="urn:ogc:def:crs:EPSG::4326">
+              <pos>34.6 -98.6</pos>
+            </position>
+          </ns3:position>
+          <ns3:positionTime timeReference="UTC">2016-10-17T19:34:17Z</ns3:positionTime>
+          <ns3:reportedLevel altitudeSuffix="B">
+            <flightLevel uom="FL">237.0</flightLevel>
+          </ns3:reportedLevel>
+        </ns3:aircraftPosition>
+      </ns2:enRoute>
+      <ns2:flightIdentification aircraftIdentification="N694PD" computerId="673" xsi:type="ns3:NasFlightIdentificationType">
+        <ns3:idCreatorUnit atcUnitNameOrAlternate="KZKC" xsi:type="OtherUnitReferenceType"/>
+      </ns2:flightIdentification>
+      <ns3:additionalFlightInformation>
+        <ns3:nameValue name="FLIGHT_REF" value="19299360"/>
+      </ns3:additionalFlightInformation>
+      <ns3:flightPlan identifier="KK69878200"/>
+    </ns3:flight>
+    <ns3:metadata messageType="TRACK_INFORMATION" sensitivity="A">
+      <ns3:provenance centre="KZKC"/>
+      <ns3:trigger triggerType="HCS_TRACK_MSG"/>
+    </ns3:metadata>
+  </ns4:message>
+</ns4:MessageCollection>

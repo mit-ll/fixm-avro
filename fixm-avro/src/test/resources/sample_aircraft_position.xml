@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<msg:MessageCollection xmlns:fb="http://www.fixm.aero/base/4.0" xmlns:fl="http://www.fixm.aero/flight/4.0" xmlns:msg="http://www.fixm.aero/messaging/4.0" xmlns:nas="http://www.faa.aero/nas/4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:aircraftPosition>
+          <nas:followingPosition>
+            <nas:position designator="AA" xsi:type="fb:DesignatedPointOrNavaidType"/>
+          </nas:followingPosition>
+          <nas:nextPosition xsi:nil="true"/>
+        </nas:aircraftPosition>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:aircraftPosition>
+          <nas:followingPosition xsi:nil="true"/>
+        </nas:aircraftPosition>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:aircraftPosition>
+          <nas:nextPosition>
+            <nas:position designator="BB" xsi:type="fb:DesignatedPointOrNavaidType"/>
+          </nas:nextPosition>
+        </nas:aircraftPosition>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+</msg:MessageCollection>
+

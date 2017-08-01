@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<msg:MessageCollection xmlns:fb="http://www.fixm.aero/base/4.0" xmlns:fl="http://www.fixm.aero/flight/4.0" xmlns:msg="http://www.fixm.aero/messaging/4.0" xmlns:nas="http://www.faa.aero/nas/4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType"/>
+    </msg:flight>
+  </msg:message>
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:pointout xsi:nil="true"/>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:pointout>
+          <nas:originatingUnit controlSectorDesignator="FGHI" locationIndicator="ABCD" xsi:type="fb:IcaoUnitReferenceType"/>
+        </nas:pointout>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+</msg:MessageCollection>
+

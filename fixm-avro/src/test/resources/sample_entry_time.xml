@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<msg:MessageCollection xmlns:fb="http://www.fixm.aero/base/4.0" xmlns:fl="http://www.fixm.aero/flight/4.0" xmlns:msg="http://www.fixm.aero/messaging/4.0" xmlns:nas="http://www.faa.aero/nas/4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <msg:message xsi:type="msg:MessageType">
+    <msg:flight xsi:type="nas:NasFlightType">
+      <fl:enRoute xsi:type="nas:NasEnRouteType">
+        <nas:controlElement>
+          <nas:airspace>
+            <nas:airspaceControlledEntryTime timeReference="UTC">2000-01-01T00:00:00Z</nas:airspaceControlledEntryTime>
+          </nas:airspace>
+        </nas:controlElement>
+        <nas:controlElement>
+          <nas:airspace>
+            <nas:airspaceControlledEntryTime timeReference="UTC" xsi:nil="true"/>
+          </nas:airspace>
+        </nas:controlElement>
+        <nas:controlElement>
+          <nas:airspace/>
+        </nas:controlElement>
+      </fl:enRoute>
+    </msg:flight>
+  </msg:message>
+</msg:MessageCollection>
+

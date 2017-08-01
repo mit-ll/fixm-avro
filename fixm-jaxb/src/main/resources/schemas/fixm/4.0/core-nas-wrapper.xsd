@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema">
+    <import namespace="http://www.fixm.aero/fixm/4.0" schemaLocation="core/Fixm.xsd"/>
+    <import namespace="http://www.faa.aero/nas/4.0" schemaLocation="extensions/nas/Nas.xsd"/>
+</schema>

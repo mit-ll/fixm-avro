@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         NasAltitude package contains the NAS specific altitude definitions that extend the 
+         FIXM Core defined altitude. 
+      </documentation>
+   </annotation>
+
+   <complexType name="AboveAltitudeType">
+      <annotation>
+         <documentation>
+            aircraft operating above a specified altitude 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType"/>
+      </complexContent>
+   </complexType>
+   <element name="AboveAltitude" type="nas:AboveAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <complexType name="AltFixAltAltitudeType">
+      <annotation>
+         <documentation>
+            Alt-fix-alt altitude is defined as an altitude prior to a specified fix, the specified 
+            fix itself, and altitude post specified fix. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="point" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Fix associated with the altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="post" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Altitude post the specified fix. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="pre" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Altitude pre specified fix. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="AltFixAltAltitude" type="nas:AltFixAltAltitudeType" /> 
+
+   <complexType name="BlockAltitudeType">
+      <annotation>
+         <documentation>
+            Altitude indicates that aircraft is operating  above and below the specified altitudes. 
+            
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="above" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Lower range of the block altitude. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="below" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Upper range of the block altitude. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="BlockAltitude" type="nas:BlockAltitudeType" /> 
+
+   <complexType name="NasAltitudeType">
+      <annotation>
+         <documentation>
+            A single NAS altitude, which can take on any of the several forms listed in the 
+                "choice" below.
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="above" type="nas:AboveAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  aircraft operating above a specified altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="altFixAlt" type="nas:AltFixAltAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Alt-fix-alt altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="block" type="nas:BlockAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Altitude indicates that aircraft is operating  above and below the specified altitudes. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="simple" type="nas:SimpleAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The only NAS altitude that maps directly to the core ICAO altitude types. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="vfr" type="nas:VfrAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  vfr altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="vfrOnTop" type="nas:VfrOnTopAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  vfr-on-top altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="vfrOnTopPlus" type="nas:VfrOnTopPlusAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  vfr-on-top with altitude 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="vfrPlus" type="nas:VfrPlusAltitudeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  vfr plus altitude 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="NasAltitude" type="nas:NasAltitudeType" /> 
+
+   <complexType name="ReportedAltitudeType">
+      <annotation>
+         <documentation>
+            Provides the NAS reported altitude with optional suffixes (B, C, T). 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType">
+            <attribute name="altitudeSuffix" type="nas:AltitudeSuffixType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Reported Altitude suffix 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="ReportedAltitude" type="nas:ReportedAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <complexType name="SimpleAltitudeType">
+      <annotation>
+         <documentation>
+            The only NAS altitude that maps directly to the core ICAO altitude types. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType"/>
+      </complexContent>
+   </complexType>
+   <element name="SimpleAltitude" type="nas:SimpleAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <complexType name="TargetAltitudeType">
+      <annotation>
+         <documentation>
+            The Mode C target altitude, corrected for barometric pressure.  Can be marked as 
+            invalid. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType">
+            <attribute name="invalid" type="nas:InvalidIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates whether target altitude is invalid. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TargetAltitude" type="nas:TargetAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <complexType name="VfrAltitudeType">
+      <annotation>
+         <documentation>
+            vfr altitude 
+         </documentation>
+      </annotation>
+   </complexType>
+   <element name="VfrAltitude" type="nas:VfrAltitudeType" /> 
+
+   <complexType name="VfrOnTopAltitudeType">
+      <annotation>
+         <documentation>
+            vfr-on-top altitude 
+         </documentation>
+      </annotation>
+   </complexType>
+   <element name="VfrOnTopAltitude" type="nas:VfrOnTopAltitudeType" /> 
+
+   <complexType name="VfrOnTopPlusAltitudeType">
+      <annotation>
+         <documentation>
+            vfr-on-top with altitude 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType"/>
+      </complexContent>
+   </complexType>
+   <element name="VfrOnTopPlusAltitude" type="nas:VfrOnTopPlusAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <complexType name="VfrPlusAltitudeType">
+      <annotation>
+         <documentation>
+            vfr plus altitude 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType"/>
+      </complexContent>
+   </complexType>
+   <element name="VfrPlusAltitude" type="nas:VfrPlusAltitudeType" substitutionGroup="fb:FlightLevelOrAltitude" /> 
+
+   <simpleType name="AltitudeSuffixType">
+      <annotation>
+         <documentation>
+            Reported altitude suffix 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="C"/>
+         <enumeration value="T"/>
+         <enumeration value="B"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="InvalidIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates whether target altitude is invalid. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="INVALID"/>
+      </restriction>
+   </simpleType>
+</schema>

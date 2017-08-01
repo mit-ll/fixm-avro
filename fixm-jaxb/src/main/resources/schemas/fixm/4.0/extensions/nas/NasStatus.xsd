@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <annotation>
+      <documentation>
+         Defines the NAS specific flight status information. 
+      </documentation>
+   </annotation>
+
+   <complexType name="NasFlightStatusType">
+      <annotation>
+         <documentation>
+            Identifies the aspect of the flight life cycle. 
+         </documentation>
+      </annotation>
+      <attribute name="airborneHold" type="nas:AirborneHoldIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Specifies whether or not the aircraft is in an airborne hold. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="fdpsFlightStatus" type="nas:SfdpsFlightStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               Represents the current status of the flight as specified by the SWIM SFDPS. 
+               Status: Identification of the current aspect of the flight life cycle as determined 
+               by the SWIM Flight Data Publication Service (SFDPS). 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="tfmsCancellationReason" type="nas:CancellationStatusReasonType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the reason for a flight cancellation from a Traffic Flow Management Program. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="tfmsFlightStatus" type="nas:TfmsFlightStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates the current status of the flight, as determined by Traffic Flow Management 
+               System (TFMS). 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasFlightStatus" type="nas:NasFlightStatusType" /> 
+
+   <simpleType name="AirborneHoldIndicatorType">
+      <annotation>
+         <documentation>
+            Specifies whether or not the aircraft is in an airborne hold. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AIRBORNE_HOLD"/>
+         <enumeration value="NOT_AIRBORNE_HOLD"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CancellationStatusReasonType">
+      <annotation>
+         <documentation>
+            Provides the reason for a flight cancellation from a Traffic Flow Management Program. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FX"/>
+         <enumeration value="UX"/>
+         <enumeration value="RZ"/>
+         <enumeration value="RS"/>
+         <enumeration value="TO"/>
+         <enumeration value="DV"/>
+         <enumeration value="RM"/>
+         <enumeration value="DP"/>
+         <enumeration value="ID"/>
+         <enumeration value="CN"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SfdpsFlightStatusType">
+      <annotation>
+         <documentation>
+            Represents the current status of the flight as specified by the SWIM SFDPS. 
+            Identification of the current aspect of the flight life cycle as determined by the 
+            SWIM Flight Data Publication Service (SFDPS). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="PROPOSED">
+            <annotation>
+               <documentation>
+                  There is at least one non-cancelled flight plan in place and the flight has not yet 
+                  become airborne. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="ACTIVE">
+            <annotation>
+               <documentation>
+                  Flight is airborne and updates are still being generated for the flight. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="COMPLETED">
+            <annotation>
+               <documentation>
+                  Flight has landed at its destination. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="CANCELLED">
+            <annotation>
+               <documentation>
+                  There are only cancelled flight plans for the flight and it was never airborne. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="DROPPED">
+            <annotation>
+               <documentation>
+                  Data updates terminated before the flight landed. It is unknown whether the flight 
+                  is still airborne or not. This could be a flight that has left FAA airspace or a 
+                  flight that has switched to Visual Flight Rules. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TfmsFlightStatusType">
+      <annotation>
+         <documentation>
+            Indicates the current status of the flight, as determined by Traffic Flow Management 
+            System (TFMS). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="SCHEDULED"/>
+         <enumeration value="CONTROLLED"/>
+         <enumeration value="FILED"/>
+         <enumeration value="ACTIVE"/>
+         <enumeration value="ASCENDING"/>
+         <enumeration value="CRUISING"/>
+         <enumeration value="DESCENDING"/>
+         <enumeration value="COMPLETED"/>
+         <enumeration value="CANCELLED"/>
+         <enumeration value="DECONTROLLED"/>
+         <enumeration value="UNKNOWN"/>
+         <enumeration value="NONE"/>
+         <enumeration value="ERROR"/>
+         <enumeration value="OTHER"/>
+         <enumeration value="PLANNED"/>
+      </restriction>
+   </simpleType>
+</schema>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:mesg="http://www.fixm.aero/messaging/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasFlightData.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <import namespace="http://www.fixm.aero/messaging/4.0" schemaLocation="./../../core/messaging/Messaging.xsd"/>
+   <annotation>
+      <documentation>
+         This package contains a basic message definition prototype. Each message can contain 
+         a FIXM flight and be part of a message collection as a means to transport FIXM data. 
+         It is included as part of the NAS extension to allow basic messaging capability that 
+         is not agreed upon in the Core FIXM. 
+      </documentation>
+   </annotation>
+
+   <complexType name="MessageMetadataType">
+      <annotation>
+         <documentation>
+            The MessageMetadata provides a unique message identifier, the origin of the message 
+            in time and location, 
+                the system
+                that produced the message, and the time span over which the message data is valid.
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="provenance" type="nas:ProvenanceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Message provenance data. Can be used by system to describe details involved in sending 
+                  the message including source, center and system.. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="trigger" type="nas:TriggerType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Container for Message Trigger information such as the type of trigger and timestamp. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="messageType" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Type of message. For example track update, flight plan amendment. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="sensitivity" use="optional" > 
+         <annotation>
+            <documentation>
+               Sensitivity of the message 
+            </documentation>
+         </annotation>
+         <simpleType>
+            <restriction base="fb:CharacterStringType">
+               <pattern value="[A-Z]"/>
+            </restriction>
+         </simpleType>
+      </attribute>
+      <attribute name="sensitivityReason" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Reason for the message sensitivity. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="MessageMetadata" type="nas:MessageMetadataType" /> 
+
+   <complexType name="NasMessageType">
+      <annotation>
+         <documentation>
+            FlightMessage is used to transmit FIXM flight objects. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="mesg:AbstractMessageType">
+            <sequence>
+               <element name="flight" type="nas:NasFlightType" minOccurs="1" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Flight that is contained within the Flight message. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="metadata" type="nas:MessageMetadataType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The MessageMetadata provides a unique message identifier, the origin of the message 
+                        in time and location, 
+                the system
+                that produced the message, and the time span over which the message data is valid.
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasMessage" type="nas:NasMessageType" substitutionGroup="mesg:AbstractMessage" /> 
+
+   <complexType name="ProvenanceType">
+      <annotation>
+         <documentation>
+            Provenance carries four attributes that describe the ultimate source of the data 
+            to which it refers: 
+            * system - The name of the system that generated the data contained in the Provenance. 
+            
+            * center - The ATC center (or FIR) that produced the data contained in the Provenance. 
+            
+            * source - The source of the data in the message (unstructured, for archival analysis). 
+            
+            * timestamp - The time at which the data entered the system 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="timestamp" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time at which the provenance information was recorded. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="centre" type="nas:ProvenanceCentreType" use="optional" > 
+         <annotation>
+            <documentation>
+               The ATC center (or FIR) that produced the data contained in the Provenance. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="source" type="nas:ProvenanceSourceType" use="optional" > 
+         <annotation>
+            <documentation>
+               The source of the data in the message (unstructured, for archival analysis). 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="system" type="nas:ProvenanceSystemType" use="optional" > 
+         <annotation>
+            <documentation>
+               The name of the system that generated the data contained in the Provenance. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="Provenance" type="nas:ProvenanceType" /> 
+
+   <simpleType name="ProvenanceCentreType">
+      <annotation>
+         <documentation>
+            Name of the ATC (FIR) center that produced the data 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType"/>
+   </simpleType>
+
+   <simpleType name="ProvenanceSourceType">
+      <annotation>
+         <documentation>
+            Indication of the source of the data in the Provenance, for archival analysis. 
+            While this field has no formal definition, it might take values like: 
+            * ACID of the flight that produced it. 
+            * Name or ID of a controller 
+            * Name or ID of a pilot 
+            * Name of airline 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType"/>
+   </simpleType>
+
+   <simpleType name="ProvenanceSystemType">
+      <annotation>
+         <documentation>
+            Name of the flight data system that produced the data. 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType"/>
+   </simpleType>
+
+   <complexType name="TriggerType">
+      <annotation>
+         <documentation>
+            Container for Message Trigger information such as the type of trigger and timestamp. 
+            
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="timestamp" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Trigger timestamp 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="triggerType" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Describes the message trigger type. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="Trigger" type="nas:TriggerType" /> 
+</schema>

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasCommon.xsd"/>
+   <include schemaLocation="./NasCoordination.xsd"/>
+   <include schemaLocation="./NasPosition.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         Contains definitions to NAS specific extension of FIXM Core En Route concepts. 
+      </documentation>
+   </annotation>
+
+   <complexType name="AirspaceAcceptableSlotSubstitutionType">
+      <annotation>
+         <documentation>
+            Container that holds information about Airspace Slot Credit Substitution 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="earliest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The earliest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Airspace Flow Program (AFP) in return for a yielded slot. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="latest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The latest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Airspace Flow Program (AFP), in return for a yielded slot. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="AirspaceAcceptableSlotSubstitution" type="nas:AirspaceAcceptableSlotSubstitutionType" /> 
+
+   <complexType name="AirspaceEntryTimeType">
+      <annotation>
+         <documentation>
+            Container for : 
+            Airspace Entry Time - Earliest 
+            Airspace Entry Time - Initial 
+            Airspace Entry Time - Original 
+            Airspace Entry Time - Traffic Flow Management System Estimated 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="base" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The last Airspace Entry Time - Traffic Flow Management System Estimated modeled by 
+                  the Traffic Flow Management System (TFMS) before either a Traffic Management Initiative 
+                  is issued, or the flight departs, and includes any time-out delay modeled by TFMS. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="earliest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The earliest time the flight could enter the constrained airspace. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="initial" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The date and time at which a flight was originally planning to enter into the airspace. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="original" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The last Airspace Entry Time - Traffic Flow Management System Estimated modeled by 
+                  the Traffic Flow Management System (TFMS) before either a Traffic Management Initiative 
+                  is issued, or the flight departs, or the flight is  time-out  delayed by TFMS. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="slotSubstitution" type="nas:AirspaceAcceptableSlotSubstitutionType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Information about Airspace Slot Credit Subsititution 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="tfmsEstimated" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The estimated airspace entry time considering all data sources, as determined by 
+                  Traffic Flow Management System (TFMS). 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="AirspaceEntryTime" type="nas:AirspaceEntryTimeType" /> 
+
+   <complexType name="AirspaceExitTimeType">
+      <annotation>
+         <documentation>
+            Container for 
+            Airspace Exit Time - Traffic Flow Management System Estimated 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="extendedExitTfmsEstimated" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The estimated airspace exit time for the flight when using the extended end time 
+                  of the constrained airspace. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="tfmsEstimated" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The estimated airspace exit time considering all data sources, as determined by Traffic 
+                  Flow Management System (TFMS). 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="AirspaceExitTime" type="nas:AirspaceExitTimeType" /> 
+
+   <complexType name="ControlElementType">
+      <annotation>
+         <documentation>
+            The constrained aerodrome or airspace element (subject to a Traffic Management Initiative/Regulation) 
+            indicating the reason for a flight being controlled. 
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="airspace" type="nas:NasAirspaceConstraintType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Represents an airspace that has been constrained such as flow constrained area with 
+                  associated controlled time. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="arrivalAerodrome" type="fb:LocationIndicatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  An arrival aerodrome that is subject to air traffic control management. 
+                  .Arrival Aerodrome: The ICAO designator or the name of the aerodrome at which the 
+                  flight has arrived. 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="ControlElement" type="nas:ControlElementType" /> 
+
+   <complexType name="NasAirspaceConstraintType">
+      <annotation>
+         <documentation>
+            Container for Airspace Slot Handling. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="airspaceControlledEntryTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" nillable="true">
+            <annotation>
+               <documentation>
+                  The time at which a flight is required to arrive at a constrained airspace element 
+                  as a result of a tactical slot allocation or a Traffic Management Initiative (TMI). 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="entryPoint" type="fb:PositionPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The flight's position at entry into the constrained airspace. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="entryPointHeading" type="fb:BearingType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The flight's heading at the entry point into the constrained airspace. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="entryTime" type="nas:AirspaceEntryTimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Container for : 
+                  Airspace Entry Time - Earliest 
+                  Airspace Entry Time - Initial 
+                  Airspace Entry Time - Original 
+                  Airspace Entry Time - Traffic Flow Management System Estimated 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="exitTime" type="nas:AirspaceExitTimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The estimated airspace exit time considering all data sources, as determined by Traffic 
+                  Flow Management System (TFMS). 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="flightCreationTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time when the flight was first detected intersecting the Flow Evaluation Area/Flow 
+                  Constrained Area. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="identifierLastUpdateTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time when the Flow Constrained Area definition was last updated. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="arrivalSlot" type="nas:SlotAssignmentType" use="optional" > 
+         <annotation>
+            <documentation>
+               A time slot at an airport or airspace entry point that identifies a point in time 
+               when an aircraft is constrained to arrive at the airport or airspace entry point. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="constrainedAirspace" type="nas:ConstrainedAirspaceType" use="optional" > 
+         <annotation>
+            <documentation>
+               Constrained Airspace associated with the airspace controlled entry time. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="flightExitIndicator" type="nas:FlightExitIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates that a flight is an exit flight, and it is no longer intersecting the constrained 
+               airspace. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="holdStatus" type="nas:SlotHoldStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               If a flight is controlled and cancelled [e.g., has a Controlled Time of Departure 
+               (CTD), Controlled Time of Arrival (CTA), and Arrival Slot (ASLOT)], the slot hold 
+               status indicates whether the slot associated with this flight is being held, or would 
+               be held, by the Airspace User for the next full compression. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="yieldedSlot" type="nas:SlotYieldedIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates the slot currently specified in   Runway Arrival Time - Controlled   is 
+               to be given up by the Airspace User in return for a later slot. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasAirspaceConstraint" type="nas:NasAirspaceConstraintType" /> 
+
+   <complexType name="NasClearedFlightInformationType">
+      <annotation>
+         <documentation>
+            Holds clearance information. 
+         </documentation>
+      </annotation>
+      <attribute name="clearanceHeading" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Contains the En Route Controller Clearance heading, as entered by the controller 
+               in the fourth line of the Full Data Block. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="clearanceSpeed" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               This data element contains the En Route Controller Clearance speed, as entered by 
+               the controller in the fourth line of the Full Data Block. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="clearanceText" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               This data element contains free-form text entered by the En Route Controller, to 
+               be associated with the Clearance in the fourth line of the Full Data Block. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasClearedFlightInformation" type="nas:NasClearedFlightInformationType" /> 
+
+   <complexType name="NasEnRouteType">
+      <annotation>
+         <documentation>
+            Extension of core EnRoute to include additional NAS hold information. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:EnRouteType">
+            <sequence>
+               <element name="aircraftPosition" type="nas:NasAircraftPositionType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Groups information about Aircraft Position 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="boundaryCrossingActual" type="nas:NasBoundaryCrossingType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Container for the Actual Boundary Crossing Attributes 
+                        .Boundary Crossing Position - Actual: The actual boundary crossing point inbound 
+                        to the Air Route Traffic Control Center (ARTCC) for the flight. 
+                        .Boundary Crossing Time - Actual: The actual time at which a flight crosses the associated 
+                        boundary crossing point. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="clearedFlightInformation" type="nas:NasClearedFlightInformationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Holds clearance information. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="controlElement" type="nas:ControlElementType" minOccurs="0" maxOccurs="unbounded" nillable="true">
+                  <annotation>
+                     <documentation>
+                        .Control Element: The constrained aerodrome or airspace element (subject to a Traffic 
+                        Management Initiative/Regulation) indicating the reason for a flight being controlled. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="expectedFurtherClearanceTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The time the flight can expect further clearance at the specified hold fix. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="pointout" type="nas:PointoutType" minOccurs="0" maxOccurs="1" nillable="true">
+                  <annotation>
+                     <documentation>
+                        A physical or automated action taken by a controller to transfer the radar identification 
+                        of an aircraft to another controller if the aircraft will or may enter the airspace 
+                        or protected airspace of another controller and radio communications will not be 
+                        transferred. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="previousSSRCode" type="fb:SsrCodeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The Secondary surveillance radar (SSR) mode and code the flight was transponding 
+                        before the current SSR Mode and Code. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="reassignedSSRCode" type="fb:SsrCodeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The Secondary Surveillance Radar (SSR) mode and beacon code assigned to the flight 
+                        in the downstream facility, if the flight's current beacon code is already in use 
+                        by another flight in that facility. The next beacon code differs from the flight's 
+                        current beacon code. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasEnRoute" type="nas:NasEnRouteType" substitutionGroup="fx:EnRoute" /> 
+
+   <complexType name="PointoutType">
+      <annotation>
+         <documentation>
+            A physical or automated action taken by a controller to transfer the radar identification 
+            of an aircraft to another controller if the aircraft will or may enter the airspace 
+            or protected airspace of another controller and radio communications will not be 
+            transferred. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="originatingUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Identifies the Air Traffic Control unit originating the point out. 
+                  .Point Out - Originating Sector: Identifies the ATC sector originating the point 
+                  out. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="receivingUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  Identifies the ATC sector receiving the point out. 
+                  Identifies the Air Traffic Control unit receiving the point out. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="Pointout" type="nas:PointoutType" /> 
+
+   <simpleType name="FlightExitIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates that a flight is an exit flight, and it is no longer intersecting the constrained 
+            airspace. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FLIGHT_EXIT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SlotHoldStatusType">
+      <annotation>
+         <documentation>
+            If a flight is controlled and cancelled [e.g., has a Controlled Time of Departure 
+            (CTD), Controlled Time of Arrival (CTA), and Arrival Slot (ASLOT)], the slot hold 
+            status indicates whether the slot associated with this flight is being held, or would 
+            be held, by the Airspace User for the next full compression. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="HOLD"/>
+         <enumeration value="RELEASE"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SlotYieldedIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates the slot currently specified in   Runway Arrival Time - Controlled   is 
+            to be given up by the Airspace User in return for a later slot. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="SLOT_YIELDED">
+            <annotation>
+               <documentation>
+                  .Yielded Slot Indicator : Indicates the slot currently specified in "Runway Arrival 
+                  Time - Controlled" is to be given up by the Airspace User in return for a later slot. 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

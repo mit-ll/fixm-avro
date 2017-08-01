@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         The NASAircraft package contains the NAS specific extensions to the FIXM core aircraft 
+         package. 
+      </documentation>
+   </annotation>
+
+   <complexType name="CmsAccuracyType">
+      <annotation>
+         <documentation>
+            This is the flight's navigation accuracy value for the phase of flight, specified 
+            in the Performance-Based Navigation Phase. 
+         </documentation>
+      </annotation>
+      <attribute name="phase" type="nas:NasPerformanceBasedNavigationPhaseType" use="optional" > 
+         <annotation>
+            <documentation>
+               The phase of flight for which navigation performance is being recorded. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="type" type="nas:CmsAccuracyTypeType" use="optional" > 
+         <annotation>
+            <documentation>
+               This is an enumeration indicating whether the accuracy measure in Performance-Based 
+               Navigation Accuracy is measuring Area Navigation (RNAV) or Required Navigation Performance 
+               (RNP). 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="CmsAccuracy" type="nas:CmsAccuracyType" /> 
+
+   <simpleType name="EngineTypeType">
+      <annotation>
+         <documentation>
+            The category of the aircraft  engine. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="PISTON"/>
+         <enumeration value="JET"/>
+         <enumeration value="TURBO"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="NasAircraftType">
+      <annotation>
+         <documentation>
+            NAS specific extensions to aircraft information 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AircraftType">
+            <sequence>
+               <element name="accuracy" type="nas:NasPerformanceBasedAccuracyType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        NAS extension for Performance-Based Navigation Accuracy. 
+                        This is an enumeration indicating whether the accuracy measure in Performance-Based 
+                        Navigation Accuracy is measuring Area Navigation (RNAV) or Required Navigation Performance 
+                        (RNP). 
+                        This is the flight's navigation accuracy value for the phase of flight, specified 
+                        in the Performance-Based Navigation Phase. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="aircraftCategory" type="nas:TfmsAircraftCategoryType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates the category of the aircraft operating the flight 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="engineType" type="nas:EngineTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The category of the aircraft  engine. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="equipmentQualifier" type="nas:NasAirborneEquipmentQualifierType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A value assigned to the aircraft, based on its navigational equipment, whether or 
+                     not it has a transponder, and if it has a transponder, whether the transponder supports 
+                     Mode C. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="nasWakeTurbulence" type="nas:WakeTurbulenceCategoryExtendedType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     NAS classification of the aircraft wake turbulence, based on wingspan and Maximum 
+                     Takeoff Weight (MTOW). 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="tfmsAircraftWeightclass" type="nas:TfmsAircraftWeightClassType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Describes an aircraft's weight category 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="tfmsSpecialAircraftQualifier" type="nas:NasSpecialAircraftQualifierType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates the flight is a heavy jet, B757 or, if not present, a large jet and if 
+                     the flight is either equipped or not with TCAS. This indicator is used for output 
+                     purposes such as strip printing and message transfers to other facilities such as 
+                     Automated Radar Terminal System (ARTS). 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasAircraft" type="nas:NasAircraftType" substitutionGroup="fx:Aircraft" /> 
+
+   <complexType name="NasPerformanceBasedAccuracyType">
+      <annotation>
+         <documentation>
+            NAS extension for Performance-Based Navigation Accuracy. 
+            This is an enumeration indicating whether the accuracy measure in Performance-Based 
+            Navigation Accuracy is measuring Area Navigation (RNAV) or Required Navigation Performance 
+            (RNP). 
+            This is the flight's navigation accuracy value for the phase of flight, specified 
+            in the Performance-Based Navigation Phase. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="cmsFieldType" type="nas:CmsAccuracyType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  This is the flight's navigation accuracy value for the phase of flight, specified 
+                  in the Performance-Based Navigation Phase. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="NasPerformanceBasedAccuracy" type="nas:NasPerformanceBasedAccuracyType" /> 
+
+   <simpleType name="CmsAccuracyTypeType">
+      <annotation>
+         <documentation>
+            This is an enumeration indicating whether the accuracy measure in Performance-Based 
+            Navigation Accuracy is measuring Area Navigation (RNAV) or Required Navigation Performance 
+            (RNP). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="RNV"/>
+         <enumeration value="RNP"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="NasAirborneEquipmentQualifierType">
+      <annotation>
+         <documentation>
+            A value assigned to the aircraft, based on its navigational equipment, whether or 
+            not it has a transponder, and if it has a transponder, whether the transponder supports 
+            Mode C. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="X">
+            <annotation>
+               <documentation>
+                  No RVSM, No DME, No transponder 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="T">
+            <annotation>
+               <documentation>
+                  No RVSM, No DME, Transponder with no mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="U">
+            <annotation>
+               <documentation>
+                  No RVSM, No DME: Transponder with mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="D">
+            <annotation>
+               <documentation>
+                  DME: No transponder 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="B">
+            <annotation>
+               <documentation>
+                  DME: Transponder with no mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="A">
+            <annotation>
+               <documentation>
+                  DME: Transponder with mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  TACAN ONLY: No transponder 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="N">
+            <annotation>
+               <documentation>
+                  TACAN ONLY: Transponder with no mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="P">
+            <annotation>
+               <documentation>
+                  TACAN ONLY: Transponder with mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="Y">
+            <annotation>
+               <documentation>
+                  LORAN,VORDME,INS,RNAV: No transponder 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="C">
+            <annotation>
+               <documentation>
+                  LORAN,VORDME,INS,RNAV: Transponder with no mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="I">
+            <annotation>
+               <documentation>
+                  LORAN,VORDME,INSRNAV: Transponder with mode C 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="H">
+            <annotation>
+               <documentation>
+                  RVSM, Failed transponder or Failed Mode C capability 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="S">
+            <annotation>
+               <documentation>
+                  ADVANCED RNAV, TRANSPONDER, MODE C: FMS with DMEDME position updating 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="G">
+            <annotation>
+               <documentation>
+                  ADVANCED RNAV, TRANSPONDER, MODE C: Global Navigation Satellite System (GNSS), including 
+                  GPS or Wide Area Augmentation System (WAAS), with en?route and terminal capability. 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="V">
+            <annotation>
+               <documentation>
+                  ADVANCED RNAV, TRANSPONDER, MODE C: Required Navigational Performance (RNP). The 
+                  aircraft meets the RNP type prescribed for the route segments, routes and/or area 
+                  concerned 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="Z">
+            <annotation>
+               <documentation>
+                  REDUCED VERTICAL SEPARATION MINIMUM (RVSM): E with RVSM 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="L">
+            <annotation>
+               <documentation>
+                  REDUCED VERTICAL SEPARATION MINIMUM (RVSM): G with RVSM 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="W">
+            <annotation>
+               <documentation>
+                  REDUCED VERTICAL SEPARATION MINIMUM (RVSM): RVSM 
+               </documentation>
+            </annotation>
+         </enumeration>
+ 	<enumeration value="Q">
+            <annotation>
+               <documentation>
+                  Additional value to support TFMData
+               </documentation>
+            </annotation>
+         </enumeration>
+	<enumeration value="R">
+            <annotation>
+               <documentation>
+                  Additional value to support TFMData
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="NasPerformanceBasedNavigationPhaseType">
+      <annotation>
+         <documentation>
+            The phase of flight for which navigation performance is being recorded. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="DEPARTURE"/>
+         <enumeration value="ARRIVAL"/>
+         <enumeration value="ENROUTE"/>
+         <enumeration value="OCEANIC"/>
+         <enumeration value="SPARE_1"/>
+         <enumeration value="SPARE_2"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="NasSpecialAircraftQualifierType">
+      <annotation>
+         <documentation>
+            Indicates the flight is a heavy jet, B757 or, if not present, a large jet and if 
+            the flight is either equipped or not with TCAS. This indicator is used for output 
+            purposes such as strip printing and message transfers to other facilities such as 
+            Automated Radar Terminal System (ARTS). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="HEAVY_JET">
+            <annotation>
+               <documentation>
+                  Capable of takeoff weights of 300,000 pounds or more 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="TCAS">
+            <annotation>
+               <documentation>
+                  Traffic collision avoidance system or traffic alert and collision avoidance system
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="B757">
+            <annotation>
+               <documentation>
+                  Controllers are required to apply the special wake turbulence separation criteria 
+                  for the Boeing 757. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="B757_TCAS">
+            <annotation>
+               <documentation>
+                  Boeing 757 with traffic collision avoidance system 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HEAVY_JET_AND_TCAS">
+            <annotation>
+               <documentation>
+                  Capable of takeoff weights of 300,000 pounds or more and traffic collision avoidance 
+                  system. 
+               </documentation>
+            </annotation>
+         </enumeration>
+	<enumeration value="WAKE_TURBULENCE">
+            <annotation>
+               <documentation>
+                  Capable of takeoff weights of 300,000 pounds or more and traffic collision avoidance 
+                  system. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TfmsAircraftCategoryType">
+      <annotation>
+         <documentation>
+            Indicates the category of the aircraft operating the flight 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="SINGLE_PISTON_PROP"/>
+         <enumeration value="MULTI_PISTON_PROP"/>
+         <enumeration value="SINGLE_TURBO_PROP"/>
+         <enumeration value="MULTI_TURBO_PROP"/>
+         <enumeration value="CIVILIAN_JET"/>
+         <enumeration value="MILITARY_FIGHTER_JET"/>
+         <enumeration value="MILITARY_LARGE_JET"/>
+         <enumeration value="SPECIAL_TURBO_JET"/>
+         <enumeration value="HELICOPTER"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TfmsAircraftWeightClassType">
+      <annotation>
+         <documentation>
+            Describes an aircraft's weight category 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="SMALL"/>
+         <enumeration value="LARGE"/>
+         <enumeration value="HEAVY"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="WakeTurbulenceCategoryExtendedType">
+      <annotation>
+         <documentation>
+            NAS classification of the aircraft wake turbulence, based on wingspan and Maximum 
+            Takeoff Weight (MTOW). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="A">
+            <annotation>
+               <documentation>
+                  Aircraft capable of MTOW of 300,000 pounds or more and a wingspan greater than 245 
+                  feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="B">
+            <annotation>
+               <documentation>
+                  Aircraft capable of MTOW of 300,000 pounds or more and a wingspan greater than 175 
+                  feet and less than or equal to 245 feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="C">
+            <annotation>
+               <documentation>
+                  Aircraft capable of a MTOW of 300,000 pounds or more and a wingspan greater than 
+                  125 feet and less than or equal to 175 feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="D">
+            <annotation>
+               <documentation>
+                  Aircraft capable of a MTOW of less than 300,000 pounds and a wingspan greater than 
+                  125 feet and less than or equal to 175 feet, or aircraft with a wingspan greater 
+                  than 90 feet and less than or equal to 125 feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="E">
+            <annotation>
+               <documentation>
+                  Aircraft capable of a MTOW greater than 41,000 pounds with a wingspan greater than 
+                  65 feet and less than or equal to 90 feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="F">
+            <annotation>
+               <documentation>
+                  Aircraft capable of a MTOW of less than 41,000 pounds and a wingspan less than or 
+                  equal to 125 feet, or aircraft capable of a MTOW less than 15,500 pounds regardless 
+                  of wingspan, or a powered sailplane. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

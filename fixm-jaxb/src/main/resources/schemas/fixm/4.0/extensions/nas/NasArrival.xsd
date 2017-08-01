@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasAirspace.xsd"/>
+   <include schemaLocation="./NasCommon.xsd"/>
+   <include schemaLocation="./NasDeparture.xsd"/>
+   <include schemaLocation="./NasEnRouteData.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         Package contains the NAS specific extensions to the FIXM core FlightArrival. 
+      </documentation>
+   </annotation>
+
+   <simpleType name="EstimatedRunwayArrivalSourceType">
+      <annotation>
+         <documentation>
+            Source of the estimated runway time information 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="TFMS"/>
+         <enumeration value="ERAM"/>
+         <enumeration value="AIRSPACE_USER"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="NasArrivalType">
+      <annotation>
+         <documentation>
+            Extends core Flight Arrival with NAS specific Extensions. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:ArrivalType">
+            <sequence>
+               <element name="actualRunwayArrivalTime" type="nas:NasRunwayActualType" minOccurs="0" maxOccurs="unbounded" > 
+                  <annotation>
+                     <documentation>
+                        The actual runway arrival time, as determined by Traffic Flow Management System (TFMS). 
+                        
+                        The actual time of runway arrival, as provided by the Airspace User. 
+                         
+                        These fields in the U.S. extension  are used in order to allow providing provenances 
+                        source data.  Actual arrival time that does not include provenance source data should 
+                        be recorded in Core.Arrival.actualTimeOfArrival. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="airspaceUserActualInBlockTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        .In-Block Time - Airspace User Actual: The time at which a flight arrives at the 
+                        stand as provided by the airspace user. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="center" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Indicates the Air Route Traffic Control Center (ARTCC) for the actual arrival point 
+                        for a flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="arrivalPointText" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Actual Arrival Point specified as text 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasArrival" type="nas:NasArrivalType" substitutionGroup="fx:Arrival" /> 
+
+   <complexType name="NasDestinationType">
+      <annotation>
+         <documentation>
+            Extends core Flight  Destination with NAS specific Extensions. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:DestinationType">
+            <sequence>
+               <element name="arrivalFix" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The point at which the responsibility for control of the flight is transferred from 
+                        the En Route Air Traffic Control unit (Centre, ARTCC) to the Terminal Air Traffic 
+                        Control unit. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="center" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Indicates the Air Route Traffic Control Center (ARTCC) for the arrival point for 
+                        a flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="estimatedArrivalFixTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Estimated time over the arrival fix. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="inBlockTime" type="nas:NasInBlockTimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Contains information about flight  gate arrival time. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="runwayArrivalTime" type="nas:NasRunwayArrivalTimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Contains the NAS Specific arrival times. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="starTransitionFix" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The name for the Standard Terminal Arrival Route Transition Fix 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="tfmsStar" type="nas:TfmsInstrumentRouteDesignatorType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The textual designator of the Standard Instrument Arrival (STAR). 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="airportMonitoringStatus" type="nas:AirportMonitoringStatusType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates whether the arrival airport for the flight is monitored by traffic flow 
+                     management. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="destinationPointText" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Destination Point specified as text 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="holdStatus" type="nas:SlotHoldStatusType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     If a flight is controlled and cancelled [e.g., has a Controlled Time of Departure 
+                     (CTD), Controlled Time of Arrival (CTA), and Arrival Slot (ASLOT)], the slot hold 
+                     status indicates whether the slot associated with this flight is being held, or would 
+                     be held, by the Airspace User for the next full compression. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="slot" type="nas:SlotAssignmentType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A time slot at an airport or airspace entry point that identifies a point in time 
+                     when an aircraft is constrained to arrive at the airport or airspace entry point. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="slotYielded" type="nas:SlotYieldedIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates the slot currently specified in   Runway Arrival Time - Controlled   is 
+                     to be given up by the Airspace User in return for a later slot. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasDestination" type="nas:NasDestinationType" substitutionGroup="fx:Destination" /> 
+
+   <complexType name="NasInBlockEstimatedType">
+      <annotation>
+         <documentation>
+            The estimated off-block time for a flight, as determined by the Traffic Flow Management 
+            System, based on NAS flight data 
+            The estimated time at which a flight will arrive at the stand as provided by the 
+            airspace user. 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:TimeType">
+            <attribute name="source" type="nas:SourceType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     source of the In Block time estimation 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="NasInBlockTimeType">
+      <annotation>
+         <documentation>
+            Contains information about flight  gate arrival time. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="estimated" type="nas:NasInBlockEstimatedType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  The estimated off-block time for a flight, as determined by the Traffic Flow Management 
+                  System, based on NAS flight data 
+                  The estimated time at which a flight will arrive at the stand as provided by the 
+                  airspace user. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="initial" type="fb:TimeType" minOccurs="1" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The original stand arrival time of the flight when the flight is first created. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="scheduled" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Scheduled gate time of arrival for a flight, as provided by the OAG (Official Airline 
+                  Guide). 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="NasInBlockTime" type="nas:NasInBlockTimeType" /> 
+
+   <complexType name="NasRunwayArrivalEstimatedType">
+      <annotation>
+         <documentation>
+            Estimated runway arrival time by the Traffic Flow Management System (TFMS) 
+            The estimated time of runway arrival, as provided by the Airspace User. 
+            The estimated runway arrival time considering all data sources, as determined by 
+            Traffic Flow Management System (TFMS). 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:TimeType">
+            <attribute name="estimatedType" type="nas:TfmsEstimatedArrivalTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The type for the estimated runway arrival time determined by Traffic Flow Management 
+                     System (TFMS). 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="source" type="nas:EstimatedRunwayArrivalSourceType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Source of the estimated runway arrival time estimation 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="NasRunwayArrivalTimeType">
+      <annotation>
+         <documentation>
+            Container for NAS Specific Runway Arrival Times. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="base" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The last Runway Arrival Time - Traffic Flow Management System Estimated modeled by 
+                  TFMS before either a Traffic Management Initiative (TMI) is issued, or the flight 
+                  departs, and includes any time-out delay modeled by TFMS. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="controlled" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time at which a flight is required to touch down at the runway, as a result of 
+                  a tactical slot allocation or a Traffic Management Initiative. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="earliest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The earliest acceptable arrival time provided by the Airspace user for a flight. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="estimated" type="nas:NasRunwayArrivalEstimatedType" minOccurs="0" maxOccurs="unbounded" > 
+            <annotation>
+               <documentation>
+                  Runway arrival time estimated by the Traffic Flow Management System (TFMS) 
+                  .Runway Arrival Time - Airspace User Estimated: The estimated time of runway arrival, 
+                  as provided by the Airspace User. 
+                  .Runway Arrival Time - Traffic Flow Management System Estimated: The estimated runway 
+                  arrival time considering all data sources, as determined by Traffic Flow Management 
+                  System (TFMS). 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="original" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The last Runway Arrival Time - Traffic Flow Management System Estimated modeled by 
+                  TFMS before either a Traffic Management Initiative (TMI) is issued, or the flight 
+                  departs, or the flight is  time-out  delayed by TFMS 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="originalControlled" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The first controlled arrival time (CTA) issued for a flight for the control element 
+                  which currently controls the flight. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="preferred" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  A runway arrival time which, when considered in aggregate with other flights for 
+                  that Airspace User, indicates the preferred arrival sequence. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="slotSubstitution" type="nas:RunwayAcceptableSlotSubstitutionType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The latest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Ground Delay Program (GDP), in return for a yielded slot. 
+                  The earliest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Ground Delay Program (GDP) in return for a yielded slot. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="NasRunwayArrivalTime" type="nas:NasRunwayArrivalTimeType" /> 
+
+   <complexType name="RunwayAcceptableSlotSubstitutionType">
+      <annotation>
+         <documentation>
+            The latest time at which the Airspace user will accept a slot in a Traffic Management 
+            Initiative (TMI) Ground Delay Program (GDP), in return for a yielded slot. 
+            The earliest time at which the Airspace user will accept a slot in a Traffic Management 
+            Initiative (TMI) Ground Delay Program (GDP) in return for a yielded slot. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="earliest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The earliest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Ground Delay Program (GDP) in return for a yielded slot. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="latest" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The latest time at which the Airspace user will accept a slot in a Traffic Management 
+                  Initiative (TMI) Ground Delay Program (GDP), in return for a yielded slot. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="RunwayAcceptableSlotSubstitution" type="nas:RunwayAcceptableSlotSubstitutionType" /> 
+
+   <simpleType name="TfmsEstimatedArrivalTypeType">
+      <annotation>
+         <documentation>
+            The type for the estimated runway arrival time determined by Traffic Flow Management 
+            System (TFMS). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ACTUAL"/>
+         <enumeration value="ESTIMATED"/>
+         <enumeration value="PROPOSED"/>
+         <enumeration value="SCHEDULED"/>
+         <enumeration value="AIRLINE"/>
+         <enumeration value="CONTROLLED"/>
+      </restriction>
+   </simpleType>
+</schema>

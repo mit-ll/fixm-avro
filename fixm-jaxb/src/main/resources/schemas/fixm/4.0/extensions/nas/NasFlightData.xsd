@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasAltitude.xsd"/>
+   <include schemaLocation="./NasCommon.xsd"/>
+   <include schemaLocation="./NasFlightIntent.xsd"/>
+   <include schemaLocation="./NasFlightPlan.xsd"/>
+   <include schemaLocation="./NasStatus.xsd"/>
+   <include schemaLocation="./NasTmiData.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         Contains the NAS Specific Flight definitions that extend the FIXM Core Flight. 
+      </documentation>
+   </annotation>
+
+   <complexType name="FlightDelayType">
+      <annotation>
+         <documentation>
+            Container that holds flight delay information 
+         </documentation>
+      </annotation>
+      <attribute name="delayReason" type="nas:FlightDelayReasonType" use="optional" > 
+         <annotation>
+            <documentation>
+               For a delayed flight, it provides the reason for the delay. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="delayStatus" type="nas:FlightDelayStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the delay status for a flight. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="FlightDelay" type="nas:FlightDelayType" /> 
+
+   <complexType name="NasAirspeedChoiceType">
+      <annotation>
+         <documentation>
+            A NAS extension to add an additional optional value to element Airspeed, 
+            In the NAS this element is: Aircraft Speed/Speed Classified.
+            The value is "SC". Used when the speed is a classifed value.
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="classified" type="nas:ClassifiedSpeedIndicatorType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Container for the Classified Speed Indicator. 
+                  The indication that the speed for this flight is classified and is not to be recorded. 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="nasAirspeed" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Represents the aircraft speed expressed in either true airspeed or mach. 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="NasAirspeedChoice" type="nas:NasAirspeedChoiceType" /> 
+
+   <complexType name="NasCoordinationType">
+      <annotation>
+         <documentation>
+            NAS extension to boundary crossing information: includes special handling for ccoordination 
+            time type. 
+            Coordination Time and Coordination Fix are handled by crossingPoint and crossingTime. 
+            
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="coordinationFix" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The fix to be used in conjunction with the Coordination Time so processing for this 
+                  flight (and its trajectory) can be synchronized for the next sector/facility.  It 
+                    coordinates   the flight plan with the aircraft position. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="coordinationTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The time to be used in conjunction with the Coordination Fix so processing for this 
+                  flight (and its trajectory) can be synchronized for the next sector/facility.  It 
+                    coordinates   the flight plan with the aircraft position. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="coordinationTimeHandling" type="nas:CoordinationTimeTypeType" use="optional" > 
+         <annotation>
+            <documentation>
+               Container for Coordination Time Type. 
+               The indicator for the type of   Coordination Time  . 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="delayTimeToAbsorb" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates the amount of time that needs to be absorbed during the flight. It is corrective 
+               action for meeting the goal of Estimated Departure Clearance Time (EDCT), when flight 
+               is already active and needs to arrive at the destination later than originally planned. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="NasCoordination" type="nas:NasCoordinationType" /> 
+
+   <complexType name="NasFlightType">
+      <annotation>
+         <documentation>
+            Extends core Flight object with NAS extra data 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:FlightType">
+            <sequence>
+               <element name="additionalFlightInformation" type="nas:NameValueListType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Additional information about a flight expressed in key-value pairs. 
+                        This element consists of an identification tag/indicator and the relevant value. 
+                        This information is   extra   information about the flight that does not fall into 
+                        some other predefined category. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="assignedAltitude" type="nas:NasAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The cruise altitude assigned to the active flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="controllingUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The identifier of the Air Traffic Control unit in control of the aircraft. 
+                        Identifies the ATC sector in control of the aircraft. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="coordination" type="nas:NasCoordinationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        NAS extension to boundary crossing information: includes special handling for ccoordination 
+                        time type. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightDelay" type="nas:FlightDelayType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Contains information about flight delay and reason 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightIdentificationPrevious" type="nas:NasFlightIdentificationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aircraft identification prior to a modification. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightIntent" type="nas:FlightIntentType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A container for the list of intent values provided by the flight operator that designate 
+                        the intentions of a flight prior to departure from an aerodrome or after arrival 
+                        at an aerodrome. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightPlan" type="nas:NasFlightPlanType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        NAS Flight Plan Information 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightStatus" type="nas:NasFlightStatusType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Identifies the aspect of the flight life cycle. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="interimAltitude" type="nas:SimpleAltitudeType" minOccurs="0" maxOccurs="1" nillable="true">
+                  <annotation>
+                     <documentation>
+                        The altitude an aircraft is cleared to maintain different from that in the flight 
+                        plan. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="nasTmi" type="nas:NasTmiType" minOccurs="0" maxOccurs="unbounded" > 
+                  <annotation>
+                     <documentation>
+                        NAS Traffic Management Initiative Information 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="requestedAirspeed" type="nas:NasAirspeedChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The indication that the speed for this flight is classified and is not to be recorded. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="requestedAltitude" type="nas:NasAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The cruise altitude filed or requested for the proposed flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="surfaceEvents" type="nas:SurfaceEventsType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Container for STDDS surface events such as  OOOI (off, on, out, in). 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="tfmsFlightCreationTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Indicates how long TFMS-Core has known of the flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="cdmParticipantIndicator" type="nas:CdmParticipantIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates whether this flight belongs to a Collaborative Decision Making Participant 
+                     and is thus eligible for the full benefits of compression. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="currentRVSMCompliance" type="nas:RVSMFlightIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates if the flight is currently Reduced Vertical Separation Minimum (RVSM) compliant 
+                     in RVSM airspace, as determined by the Traffic Flow Management System. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="diversionState" type="nas:DiversionStateType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicator used to define the diversion state of a flight. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="equippedIndicator" type="nas:RVSMEquippedIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates if the flight is Reduced Vertical Separation Minimum (RVSM) equipped 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="futureRVSMCompliance" type="nas:RVSMFlightIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates if the flight will beReduced Vertical Separation Minimum (RVSM) compliant 
+                     when it reaches the RVSM airspace as determined by the Traffic Flow Management System 
+                     (TFMS). 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="tfmsFlightClass" type="nas:TfmsFlightClassType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Denotes the flight class of the aircraft which is determined by the aircraft call 
+                     sign that is in the Aircraft Situation Display to Industry (ASDI) feed. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="userCategory" type="nas:TfmsUserCategoryType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indicates the category of user operating the flight 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasFlight" type="nas:NasFlightType" substitutionGroup="fx:Flight" /> 
+
+   <complexType name="NasFlightIdentificationType">
+      <annotation>
+         <documentation>
+            Extends aircraft identity to include computer id and SSPID. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:FlightIdentificationType">
+            <sequence>
+               <element name="idCreatorUnit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The Unit associated with certain NAS Flight Identifiers, e.g., Computer ID. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="computerId" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A unique identification assigned by ERAM to each flight plan. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <pattern value="[0-9]{1}[A-HJ-NP-Z0-9]{2}"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="computerSystemId" type="nas:ComputerSystemIdType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Provides the Computer System ID of the system housed at a facility which assigned 
+                     the ID Number. It is used to predefine the identification of systems which the Traffic 
+                     Flow Management System exchanges data with. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="majorCarrierIdentifier" type="fb:AircraftOperatorDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The identification of the carrier who has contracted out the operation of the flight 
+                     to a sub-carrier. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="siteSpecificPlanId" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Site Specific Plan Identifier is a unique ID for each system plan in each ERAM facility. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasFlightIdentification" type="nas:NasFlightIdentificationType" substitutionGroup="fx:FlightIdentification" /> 
+
+   <complexType name="SurfaceEventsType">
+      <annotation>
+         <documentation>
+            Container for STDDS surface events such as  OOOI (off, on, out, in). 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="stddsSpotIn" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Surface Event as determined by a surface movement service.  This event represents 
+                  when a flight has exited a movement area and transitioned into a ramp area. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="stddsSpotOut" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Surface Event as determined by a surface movement service.  This event represents 
+                  when a flight has exited a ramp area and transitioned into a movement area. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="stddsWheelsOff" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Surface Event as determined by a surface movement service.  This event represents 
+                  when a flight has left the ground during take off. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="stddsWheelsOn" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Surface Event as determined by a surface movement service.  This event represents 
+                  when a flight has touched down on the ground during a landing. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="SurfaceEvents" type="nas:SurfaceEventsType" /> 
+
+   <simpleType name="CdmParticipantIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates whether this flight belongs to a Collaborative Decision Making Participant 
+            and is thus eligible for the full benefits of compression. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CDM_PARTICIPANT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ClassifiedSpeedIndicatorType">
+      <annotation>
+         <documentation>
+            The indication that the speed for this flight is classified and is not to be recorded. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CLASSIFIED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ComputerSystemIdType">
+      <annotation>
+         <documentation>
+            Provides the Computer System ID of the system housed at a facility which assigned 
+            the ID Number. It is used to predefine the identification of systems which the Traffic 
+            Flow Management System exchanges data with. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="TFMS"/>
+         <enumeration value="HCS"/>
+         <enumeration value="CTAS"/>
+         <enumeration value="TBFM"/>
+         <enumeration value="ETMS"/>
+         <enumeration value="ERAM"/>
+         <enumeration value="STDDS"/>
+         <enumeration value="ODAPS"/>
+         <enumeration value="OTHER"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CoordinationTimeTypeType">
+      <annotation>
+         <documentation>
+            The indicator for the type of   Coordination Time  . 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="P">
+            <annotation>
+               <documentation>
+                  Proposed flight plan preparing for departure 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="D">
+            <annotation>
+               <documentation>
+                  Flight plan has departed from the departure airport 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="E">
+            <annotation>
+               <documentation>
+                  Active flight plan, aircraft is flying. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="DiversionStateType">
+      <annotation>
+         <documentation>
+            Indicator used to define the diversion state of a flight. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AIRBORN_NOCTL"/>
+         <enumeration value="AIRBORN_CTL"/>
+         <enumeration value="GROUND_NOCTL"/>
+         <enumeration value="GROUND_CTL"/>
+         <enumeration value="NO_DIVERSION"/>
+         <enumeration value="DIVERSION_CANCELED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="FlightDelayReasonType">
+      <annotation>
+         <documentation>
+            For a delayed flight, it provides the reason for the delay. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ALD"/>
+         <enumeration value="GDP"/>
+         <enumeration value="AFP"/>
+         <enumeration value="CTOP"/>
+         <enumeration value="DAS"/>
+         <enumeration value="GSD"/>
+         <enumeration value="TOD"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="FlightDelayStatusType">
+      <annotation>
+         <documentation>
+            Provides the delay status for a flight. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="DELAYED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="RVSMEquippedIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates if the flight is Reduced Vertical Separation Minimum (RVSM) equipped 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="EQUIPPED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="RVSMFlightIndicatorType">
+      <annotation>
+         <documentation>
+            Current and Future RVSM Flight Compliance 
+            .Indicates if the flight is currently Reduced Vertical Separation Minimum (RVSM) 
+            compliant in RVSM airspace, as determined by the Traffic Flow Management System. 
+            
+            Indicates if the flight will beReduced Vertical Separation Minimum (RVSM) compliant 
+            when it reaches the RVSM airspace as determined by the Traffic Flow Management System 
+            (TFMS). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="COMPLIANT">
+            <annotation>
+               <documentation>
+                  Indicates that the Flight is RVSM compliant. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TfmsFlightClassType">
+      <annotation>
+         <documentation>
+            Denotes the flight class of the aircraft which is determined by the aircraft call 
+            sign that is in the Aircraft Situation Display to Industry (ASDI) feed. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AIR_TAXI">
+            <annotation>
+               <documentation>
+                  taxi flights 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="LIFEGUARD"/>
+         <enumeration value="GA">
+            <annotation>
+               <documentation>
+                  General Aviation 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="CANADIAN_GA"/>
+         <enumeration value="MILITARY">
+            <annotation>
+               <documentation>
+                  Military flight 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TfmsUserCategoryType">
+      <annotation>
+         <documentation>
+            Indicates the category of user operating the flight 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AIR_TAXI"/>
+         <enumeration value="CARGO"/>
+         <enumeration value="GA"/>
+         <enumeration value="MILITARY"/>
+         <enumeration value="OTHER"/>
+         <enumeration value="UNKNOWN"/>
+         <enumeration value="COMMERCIAL"/>
+      </restriction>
+   </simpleType>
+</schema>

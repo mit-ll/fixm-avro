@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.faa.aero/nas/4.0"
+   version="4.0.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.0"
+   xmlns:fx="http://www.fixm.aero/flight/4.0"
+   xmlns:nas="http://www.faa.aero/nas/4.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2016 US Federal Aviation Administration (FAA) 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the following conditions are met: 
+         * Redistributions of source code must retain the above copyright notice, this list 
+         of conditions and the disclaimer. 
+         * Redistributions in binary form must reproduce the above copyright notice, this 
+         list of conditions and the disclaimer in the documentation and/or other materials 
+         provided with the distribution. 
+         * The name of US FAA or the names of its contributors may not be used to endorse 
+         or promote products derived from this specification without specific prior written 
+         permission. 
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./NasCommon.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.0" schemaLocation="./../../core/base/Base.xsd"/>
+   <import namespace="http://www.fixm.aero/flight/4.0" schemaLocation="./../../core/flight/Flight.xsd"/>
+   <annotation>
+      <documentation>
+         Contains the definitions for NAS specific trajectory options that support the CTOP 
+         program. 
+      </documentation>
+   </annotation>
+
+   <complexType name="ArrivalSlotType">
+      <annotation>
+         <documentation>
+            Arrival Slot as defined for CTOP can either be a slot assignment or a special slot 
+            indicator. 
+         </documentation>
+      </annotation>
+      <choice>
+         <element name="slot" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Arrival slot for Collaborative Trajectory Options Program definition. 
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="nas:SlotAssignmentType">
+                  <pattern value="[a-zA-Z0-9]{6}[.]{1}[0-9]{12}[a-zA-Z]{1}|NOSLOT"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="specialSlot" type="nas:SpecialSlotType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  An indicator which provides the type of the Collaborative Trajectory Options Program 
+                  time slot at an airspace entry point. 
+               </documentation>
+            </annotation>
+         </element>
+      </choice>
+   </complexType>
+   <element name="ArrivalSlot" type="nas:ArrivalSlotType" /> 
+
+   <simpleType name="AssignedIndicatorType">
+      <annotation>
+         <documentation>
+            An indication whether the Ranked 4D trajectory has been assigned by the Air Navigation 
+            Service Provider (ANSP). 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ASSIGNED"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="CollaborativeTrajectoryOptionsProgramType">
+      <annotation>
+         <documentation>
+            Container for information pertaining to definition of Collaborative Trajectory Options 
+            Program 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="ctopConformance" type="nas:CtopConformanceType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Contains information about Collaborative Trajectory Options Program Conformance Information 
+                  
+               </documentation>
+            </annotation>
+         </element>
+         <element name="ctopLastRouteAmendmentInfo" type="nas:CtopRouteAmendmentType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Collaborative Trajectory Options Program Last Route Amendment Information 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="additionalAirborneTime" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the additional amount of flying time assigned to the flight by the Collaborative 
+               Trajectory Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="assignedGroundDelay" type="fb:DurationType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the amount of ground delay assigned to the flight by the Collaborative Trajectory 
+               Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="ctopControlled" type="nas:CtopControlledndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates if the flight is controlled by this Collaborative Trajectory Options Program 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="ctopRouteControlled" type="nas:CtopRouteControlledIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates if the flight's route is controlled by this Collaborative Trajectory Options 
+               Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="ctopRouteOut" type="nas:CtopRouteOutIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates that the assigned trajectory option is routed out of the Collaborative 
+               Trajectory Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="trajectoryNewSource" type="nas:TrajectoryNewSourceType" use="optional" > 
+         <annotation>
+            <documentation>
+               The new source of the trajectory data used by the Traffic Flow Management System 
+               for a flight as part of Collaborative Trajectory Options Program allocation 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="trajectorySource" type="nas:TrajectorySourceType" use="optional" > 
+         <annotation>
+            <documentation>
+               A container which provides the flight information for a flight which was valid prior 
+               to an implicit substitution 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="CollaborativeTrajectoryOptionsProgram" type="nas:CollaborativeTrajectoryOptionsProgramType" /> 
+
+   <complexType name="ConstrainedAirspaceEntryType">
+      <annotation>
+         <documentation>
+            Container for NAS Trajectory Option Constraints. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="earliestAirspaceEntryTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The earliest time the flight could enter the constrained airspace. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="impactFca" type="nas:ConstrainedAirspaceType" use="optional" > 
+         <annotation>
+            <documentation>
+               Contains: 
+               Container for the list of constrained airspace areas to be traversed by the trajectory 
+               option. 
+               Unique Identifier for the constrained airspace to be traversed by the trajectory 
+               option. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="ConstrainedAirspaceEntry" type="nas:ConstrainedAirspaceEntryType" /> 
+
+   <complexType name="CtopConformanceType">
+      <annotation>
+         <documentation>
+            Collaborative Trajectory Options Program Conformance Information 
+         </documentation>
+      </annotation>
+      <attribute name="altitudeConformance" type="nas:CtopAltitudeConformanceType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the altitude conformance status for a flight with the Collaborative Trajectory 
+               Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="conformanceStatus" type="nas:CtopConformanceStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the conformance status for a flight with the Collaborative Trajectory Options 
+               Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="routeConformance" type="nas:CtopRouteConformanceIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the route conformance status for a flight with the Collaborative Trajectory 
+               Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="speedConformance" type="nas:CtopSpeedConformanceIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the speed conformance status for a flight with the Collaborative Trajectory 
+               Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="CtopConformance" type="nas:CtopConformanceType" /> 
+
+   <complexType name="CtopRouteAmendmentType">
+      <annotation>
+         <documentation>
+            Contains information about Collaborative Trajectory Options Program Last Route Amendment 
+            Information 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="amendmentTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Provides the Date/Time when the route amendment was sent to ERAM for a flight in 
+                  a Collaborative Trajectory Options Program 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="amendmentRejectReason" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the reason for rejected route amendment being negotiated with ERAM for a 
+               flight in a Collaborative Trajectory Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="amendmentStatus" type="nas:RouteAmendmentStatusType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the status for a route amendment being negotiated with ERAM for a flight 
+               in a Collaborative Trajectory Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="tmiIdentifier" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               Provides the Traffic Management Initiative Identifier associated with the route amendment 
+               for a flight in a Collaborative Trajectory Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="CtopRouteAmendment" type="nas:CtopRouteAmendmentType" /> 
+
+   <complexType name="NasTrajectoryOptionType">
+      <annotation>
+         <documentation>
+            A container for a Traffic Flow Management Collaborative Trajectory Options Program 
+            pertinent information for a flight. 
+            A container for information pertinent to a single trajectory option for a flight. 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:RankedTrajectoryType">
+            <sequence>
+               <element name="constrainedAirspaceEntry" type="nas:ConstrainedAirspaceEntryType" minOccurs="0" maxOccurs="unbounded" > 
+                  <annotation>
+                     <documentation>
+                        Container for NAS Trajectory Option Constraints. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="validEndTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The latest runway departure time for which this trajectory can be used by this flight. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="validStartTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The earliest runway departure time for which this trajectory can be used by this 
+                        flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="assignedIndicator" type="nas:AssignedIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indication whether the Ranked 4D trajectory has been assigned by the Air Navigation 
+                     Service Provider (ANSP). 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="ctopIdentifier" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The Traffic Flow Management System generated unique identifier for the Collaborative 
+                     Trajectory Options Program. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <pattern value="CTP\d{3}"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="ctopName" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The name for the Collaborative Trajectory Options Program as defined by the traffic 
+                     manager. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <minLength value="1"/>
+                     <maxLength value="30"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="manualOverride" type="nas:ManualOverrideIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indication whether a trajectory was either selected manually by a traffic manager 
+                     from the available trajectory options or was entered manually by a traffic manager. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="minimumNotificationMinutes" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The minimum notification time, relative to off block departure time, the airspace 
+                     user needs for a trajectory option to be assigned. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="relativeCost" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The relative cost of the trajectory option as compared to another trajectory option. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="tosSequenceNumber" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Provides the sequence number for the Trajectory Option Set submitted by the airspace 
+                     user 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="totalCost" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The total cost the flight would incur if this were the assigned trajectory option. 
+                     It includes the Trajectory Relative Cost and the Traffic Flow Management assigned 
+                     delay for this trajectory option. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="NasTrajectoryOption" type="nas:NasTrajectoryOptionType" substitutionGroup="fx:RankedTrajectory" /> 
+
+   <complexType name="PreImplicitSubstitutionType">
+      <annotation>
+         <documentation>
+            A container which provides the flight information for a flight which was valid prior 
+            to an implicit substitution 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="controlledRunwayDepTime" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  The controlled date and time of departure for the flight that was assigned prior 
+                  to implicit substitution.The controlled date and time of departure represents the 
+                  time at which a flight is required to take off from the runway as a result of a tactical 
+                  slot allocation or a Traffic Management Initiative. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+      <attribute name="slot" type="fb:CharacterStringType" use="optional" > 
+         <annotation>
+            <documentation>
+               The assigned slot for a flight prior to an implicit substitution. The assigned slot 
+               is a time slot at an airport or an airspace entry point that identifies a point in 
+               time when an aircraft is constrained to arrive at the airport or airspace entry point. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="trajectoryIdentifier" type="fb:CountType" use="optional" > 
+         <annotation>
+            <documentation>
+               The unique identifier for the trajectory that was assigned prior to implicit substitution. 
+               
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="trajectoryTotalCost" type="fb:CountType" use="optional" > 
+         <annotation>
+            <documentation>
+               The total cost the flight was expected to incur for the assigned trajectory option 
+               prior to implicit substitution. It includes the Relative Trajectory Cost and the 
+               Traffic Flow Management assigned delay for the assigned trajectory option. 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="PreImplicitSubstitution" type="nas:PreImplicitSubstitutionType" /> 
+
+   <complexType name="TmiExemptionType">
+      <annotation>
+         <documentation>
+            A container that represents Control exemption and associated reason. 
+         </documentation>
+      </annotation>
+      <attribute name="ctopExemptReason" type="nas:CtopExemptReasonType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates the reason for a flight being exempted from the Collaborative Trajectory 
+               Options Program 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="tmiExemptIndicator" type="nas:TmiExemptIndicatorType" use="optional" > 
+         <annotation>
+            <documentation>
+               Indicates whether the flight was processed as exempt from the Traffic Flow Management 
+               Initiative 
+            </documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <element name="TmiExemption" type="nas:TmiExemptionType" /> 
+
+   <simpleType name="CtopAltitudeConformanceType">
+      <annotation>
+         <documentation>
+            Provides the altitude conformance status for a flight with the Collaborative Trajectory 
+            Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CONFORMANT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopConformanceStatusType">
+      <annotation>
+         <documentation>
+            Provides the conformance status for a flight with the Collaborative Trajectory Options 
+            Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="C"/>
+         <enumeration value="NC"/>
+         <enumeration value="UNKN"/>
+         <enumeration value="EXC"/>
+         <enumeration value="OK"/>
+         <enumeration value="NC/OK"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopControlledndicatorType">
+      <annotation>
+         <documentation>
+            Indicates if the flight is controlled by this Collaborative Trajectory Options Program 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CTOP_CONTROLLED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopExemptReasonType">
+      <annotation>
+         <documentation>
+            Indicates the reason for a flight being exempted from the Collaborative Trajectory 
+            Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="NON_EXEMPT"/>
+         <enumeration value="MANUAL"/>
+         <enumeration value="ACID"/>
+         <enumeration value="INTERNATIONAL"/>
+         <enumeration value="ANOTHER_CTOP"/>
+         <enumeration value="TIME"/>
+         <enumeration value="ARR_ARPT"/>
+         <enumeration value="DEP_ARPT"/>
+         <enumeration value="ARR_ARTCC"/>
+         <enumeration value="ACTIVE"/>
+         <enumeration value="AFP"/>
+         <enumeration value="GDP"/>
+         <enumeration value="GS"/>
+         <enumeration value="PARAM"/>
+         <enumeration value="DEP_ARTCC"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopRouteConformanceIndicatorType">
+      <annotation>
+         <documentation>
+            Provides the route conformance status for a flight with the Collaborative Trajectory 
+            Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CONFORMANT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopRouteControlledIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates if the flight's route is controlled by this Collaborative Trajectory Options 
+            Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CTOP_ROUTE_CONTROLLED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopRouteOutIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates that the assigned trajectory option is routed out of the Collaborative 
+            Trajectory Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CTOP_ROUTE_OUT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CtopSpeedConformanceIndicatorType">
+      <annotation>
+         <documentation>
+            Provides the speed conformance status for a flight with the Collaborative Trajectory 
+            Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CONFORMANT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ManualOverrideIndicatorType">
+      <annotation>
+         <documentation>
+            An indication whether a trajectory was either selected manually by a traffic manager 
+            from the available trajectory options or was entered manually by a traffic manager. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="MANUAL_OVERRRIDE"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="RouteAmendmentStatusType">
+      <annotation>
+         <documentation>
+            Provides the status for a route amendment being negotiated with ERAM for a flight 
+            in a Collaborative Trajectory Options Program 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="SENT"/>
+         <enumeration value="HELD"/>
+         <enumeration value="TOUT"/>
+         <enumeration value="PEND"/>
+         <enumeration value="APLD"/>
+         <enumeration value="AMOD"/>
+         <enumeration value="DROP"/>
+         <enumeration value="RJCT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SpecialSlotType">
+      <annotation>
+         <documentation>
+            An indicator which provides the type of the Collaborative Trajectory Options Program 
+            time slot at an airspace entry point. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="PURGED"/>
+         <enumeration value="REMOVED"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TmiExemptIndicatorType">
+      <annotation>
+         <documentation>
+            Indicates whether the flight was processed as exempt from the Traffic Flow Management 
+            Initiative 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CONTROL_EXEMPT"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TrajectoryNewSourceType">
+      <annotation>
+         <documentation>
+            The new source of the trajectory data used by the Traffic Flow Management System 
+            for a flight as part of Collaborative Trajectory Options Program allocation 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="TOS"/>
+         <enumeration value="FP"/>
+         <enumeration value="EIFP"/>
+         <enumeration value="HIST"/>
+         <enumeration value="MANUAL"/>
+         <enumeration value="DIRECT"/>
+         <enumeration value="REROUTE"/>
+         <enumeration value="TACTICAL_REROUTE"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TrajectorySourceType">
+      <annotation>
+         <documentation>
+            The source of the trajectory data used by the Traffic Flow Management System for 
+            a flight as part of Collaborative Trajectory Options Program allocation 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FILED_FLIGHT_PLAN"/>
+         <enumeration value="CTOP_ASSIGNED"/>
+         <enumeration value="CTOP_MANUAL_ASSIGNED"/>
+         <enumeration value="TOS_OPTION"/>
+         <enumeration value="TFMS_REROUTE"/>
+         <enumeration value="EARLY_INTENT"/>
+         <enumeration value="HISTORICAL_ROUTE"/>
+         <enumeration value="DIRECT_ROUTE"/>
+         <enumeration value="CTOP_ASSIGNED_MODEL"/>
+         <enumeration value="CTOP_MANUAL_ASSIGNED_MODEL"/>
+         <enumeration value="TACTICAL_REROUTE"/>
+         <enumeration value="DYNAMIC_EXCEPTION"/>
+         <enumeration value="DYNAMIC_EXCEPTION_MODEL"/>
+      </restriction>
+   </simpleType>
+</schema>
